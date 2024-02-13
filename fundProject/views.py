@@ -3,14 +3,14 @@ from django.shortcuts import render,HttpResponse
 # Create your views here.
 
 def mainPage(request):
-     # images = ['iot.jpg', 'os.jpg', 'php.jpg'] 
      return  render(request,'index.html')
 
-    # return HttpResponse("Hello omara World")
+def addProject(request):
+     return  render(request,'fundProject/addProject.html')
 
-# views.py
+
+def detailProject(request):
+     return  render(request,'fundProject/detailProject.html')
 
 
-# def slider_view(request):
-#     # List your image filenames here
-#     return render(request, 'your_app/slider.html')
+
