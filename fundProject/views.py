@@ -4,7 +4,7 @@ from fundProject.models import Categories
 # Create your views here.
 
 def mainPage(request):
-<<<<<<< HEAD
+
     return  render(request,'index.html')
     # return HttpResponse("Hello omara World")
     
@@ -25,8 +25,6 @@ def deleteCategory(request):
         category = Categories.objects.get(pk=category_id)
         category.delete()
     return redirect('addCategory')
-=======
-     return  render(request,'index.html')
 
 def addProject(request):
      return  render(request,'fundProject/addProject.html')
@@ -37,4 +35,3 @@ def detailProject(request):
 
 
 
->>>>>>> 8aefb0271c49108c9d7d29ee238499395d4cbd7d

@@ -1,9 +1,9 @@
 from django.db import models
 
-<<<<<<< HEAD
+
 class Categories(models.Model):
     categoryName = models.CharField(max_length=20)
-=======
+
 # Create your models here.
 
 
@@ -33,4 +33,4 @@ class Project(models.Model):
      @classmethod
      def projectDelete(self,id):
         return self.objects.filter(id=id).delete()
->>>>>>> 8aefb0271c49108c9d7d29ee238499395d4cbd7d
+
