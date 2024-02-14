@@ -1,0 +1,29 @@
+<!-- add_category.html -->
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Add or Delete Category</title>
+</head>
+<body>
+    <h1>Add or Delete Category</h1>
+    <form method="post" action="{% url 'addCategory' %}">
+        {% csrf_token %}
+        <label for="categoryName">Category Name:</label><br>
+        <input type="text" id="categoryName" name="categoryName"><br><br>
+        <input type="submit" value="Add Category">
+    </form>
+    
+    <form method="post" action="{% url 'deleteCategory' %}">
+        {% csrf_token %}
+        <label for="categoryToDelete">Select Category to Delete:</label><br>
+        <select name="categoryToDelete">
+            {% for category in categories %}
+            <option value="{{ category.id }}">{{ category.categoryName }}</option>
+            {% endfor %}
+        </select><br><br>
+        
+        <input type="submit" value="Delete Category">
+    </form>
+</body>
+</html>
