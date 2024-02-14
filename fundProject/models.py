@@ -1,25 +1,25 @@
 from django.db import models
 
-
 class Categories(models.Model):
     categoryName = models.CharField(max_length=20)
 
-# Create your models here.
-
-
-
 class Project(models.Model):
-     # user
      title = models.CharField(max_length=285)
      details = models.TextField()
-     category = models.CharField()
-     images = models.CharField()
      tags = models.TextField()
      totalTarget = models.DecimalField(max_digits=10, decimal_places=2)
      startTime = models.DateTimeField(auto_now=True)
      endTime = models.DateTimeField(auto_now=True)
+     category_id = models.ForeignKey(Categories, on_delete=models.CASCADE)
      
-     def __str__(self):
+     
+     
+     
+     
+     
+     
+     
+     def _str_(self):
         return f"{self.title},{self.category}"
    
      @classmethod
@@ -34,3 +34,6 @@ class Project(models.Model):
      def projectDelete(self,id):
         return self.objects.filter(id=id).delete()
 
+class Images (models.Model):
+    project_id = models.ForeignKey(Project, on_delete=models.CASCADE)
+    img = models.ImageField(blank=False, null=False, upload_to='fundProject/images')

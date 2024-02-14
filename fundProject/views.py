@@ -1,6 +1,5 @@
 from django.shortcuts import render,HttpResponse,redirect
-from fundProject.models import Categories
-
+from fundProject.models import *
 # Create your views here.
 
 def mainPage(request):
@@ -32,6 +31,5 @@ def addProject(request):
 
 def detailProject(request):
      return  render(request,'fundProject/detailProject.html')
-
 
 

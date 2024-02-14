@@ -8,7 +8,7 @@ urlpatterns = [
     path('delete-category/', deleteCategory, name='deleteCategory'),
     path('', mainPage, name='mainPage'),
     path('addProject/', addProject, name='addProject'),
-    path('detailProject/',detailProject, name='detailProject')
+    path('detailProject/',detailProject, name='detailProject'),
 ]
  
 
