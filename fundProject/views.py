@@ -6,12 +6,6 @@ from django.http import HttpResponse, HttpResponseRedirect
 from .forms import ProjectForm
 def mainPage(request):
     return  render(request,'index.html')
-<<<<<<< HEAD
-    
-    
-
-=======
->>>>>>> 690dbab8e08370902ded6d43d1ad9dd7e3723a4e
 
 def addCategory(request):
     if request.method == 'POST':
