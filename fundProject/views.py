@@ -1,14 +1,17 @@
+from django.shortcuts import render, redirect , reverse,HttpResponse
 from django.shortcuts import render,HttpResponse,redirect
-from fundProject.models import Categories
+from fundProject.models import *
+from django.http import HttpResponse, HttpResponseRedirect
 
-# Create your views here.
-
+from .forms import ProjectForm
 def mainPage(request):
-
     return  render(request,'index.html')
+<<<<<<< HEAD
     
     
 
+=======
+>>>>>>> 690dbab8e08370902ded6d43d1ad9dd7e3723a4e
 
 def addCategory(request):
     if request.method == 'POST':
@@ -63,3 +66,12 @@ def cancelProject(request, id):
 
 
 
+def addProjectForm(request):
+    if request.method == 'POST':
+        form = ProjectForm(request.POST, request.FILES)
+        if form.is_valid():
+            form.save()
+            return HttpResponseRedirect(reverse("detailProject"))
+    else:
+        form = ProjectForm()
+    return render(request, 'fundProject/addProjectForm.html', {'form': form})
