@@ -27,7 +27,7 @@ urlpatterns = [
 
     path('', MainPage.mainPage),
     path('category/', include('fundProject.urls')) ,
-
+    path('', include('user.urls')),
     path('',include('fundProject.urls')),
 
 ]
