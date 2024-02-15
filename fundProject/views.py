@@ -1,9 +1,26 @@
 from django.shortcuts import render, redirect , reverse,HttpResponse
-# Create your views here.
+from django.shortcuts import render,HttpResponse,redirect
+from fundProject.models import *
 from django.http import HttpResponse, HttpResponseRedirect
 
+from .forms import ProjectForm
 def mainPage(request):
-     return  render(request,'index.html')
+    return  render(request,'index.html')
+
+def addCategory(request):
+    if request.method == 'POST':
+        category_name = request.POST.get('categoryName')
+        Categories.objects.create(categoryName=category_name)
+        return redirect('addCategory') 
+    categories = Categories.objects.all()
+    return render(request, 'addCategory.html', {'categories': categories})
+
+def deleteCategory(request):
+    if request.method == 'POST':
+        category_id = request.POST.get('categoryToDelete')
+        category = Categories.objects.get(pk=category_id)
+        category.delete()
+    return redirect('addCategory')
 
 def addProject(request):
      return  render(request,'fundProject/addProject.html')
@@ -13,7 +30,6 @@ def detailProject(request):
      return  render(request,'fundProject/detailProject.html')
 
 
-from .forms import ProjectForm
 
 def addProjectForm(request):
     if request.method == 'POST':
@@ -24,4 +40,3 @@ def addProjectForm(request):
     else:
         form = ProjectForm()
     return render(request, 'fundProject/addProjectForm.html', {'form': form})
-
