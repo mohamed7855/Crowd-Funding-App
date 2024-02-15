@@ -20,19 +20,13 @@ from fundProject import  views as MainPage
 
 urlpatterns = [
     path('admin/', admin.site.urls),
-
-<<<<<<< HEAD
     path('', MainPage.mainPage),
     path('category/', include('fundProject.urls')) ,
     path('', include('user.urls')),
-=======
     # path('', MainPage.mainPage),
     path('', include('fundProject.urls')) ,
-
->>>>>>> d0f8258be0e0d0476c7af31a2496f189b1ca276f
     path('',include('fundProject.urls')),
     path('user/', include('user.urls')) ,
-    
-    # path('',include('fundProject.urls')),
+ #  path('',include('fundProject.urls')),
 
 ]
