@@ -22,23 +22,16 @@ h1{
     position: relative;
   }
   
- .user .image-user img {
+ .user .image-user img{
     width: 100%;
     border-top-left-radius: 8px;
     border-top-right-radius: 8px;
     height:300px;
+    cursor: pointer;
 
   }
   
-/* .user .image-user::after {
-    content: "";
-    position: absolute;
-    left: 0;
-    bottom: 0;
-    width: 100%;
-    height: 50px;
-    background-image: url(../images/team-shape.svg); 
-  }*/
+
   .user .info{
      padding-inline:10px;
   }
