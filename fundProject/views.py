@@ -14,6 +14,7 @@ def addCategory(request):
     categories = Categories.objects.all()
     return render(request, 'addCategory.html', {'categories': categories})
 
+
 def deleteCategory(request):
     if request.method == 'POST':
         category_id = request.POST.get('categoryToDelete')
@@ -21,12 +22,40 @@ def deleteCategory(request):
         category.delete()
     return redirect('addCategory')
 
+
 def addProject(request):
      return  render(request,'fundProject/addProject.html')
 
 
 def detailProject(request):
      return  render(request,'fundProject/detailProject.html')
+
+ 
+def projectList(request, id):
+    
+    return HttpResponse(f'the Project ID: {id}')
+
+
+def projectDetails(request, id):
+    
+    return HttpResponse(f'the Project Details ID: {id}')
+
+
+def addCommentOnProject(request, id):
+    
+    return HttpResponse(f'Comment on Project {id}')
+
+
+def reportComment(request, id):
+    
+    return HttpResponse(f'report Comment on Project {id}')
+
+    
+def cancelProject(request, id):
+    
+    return HttpResponse(f'cancel Project {id}')
+
+
 
 
 
