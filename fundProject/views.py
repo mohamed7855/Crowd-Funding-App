@@ -4,12 +4,7 @@ from django.http import HttpResponse, HttpResponseRedirect
 
 
 def mainPage(request):
-
     return  render(request,'index.html')
-    # return HttpResponse("Hello omara World")
-    
-    
-
 
 def addCategory(request):
     if request.method == 'POST':
@@ -32,5 +27,6 @@ def addProject(request):
 
 def detailProject(request):
      return  render(request,'fundProject/detailProject.html')
+
 
 
