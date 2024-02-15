@@ -1,0 +1,90 @@
+h1{
+    font-size: 55px;
+    padding-block:20px;
+    text-align: center;
+    font-weight: bold;
+    color: hsl(0, 84%, 44%) ;
+}
+  
+.user {
+    background-color: white;
+    margin-top: 30px;
+    border: soild white 2px;
+    border-radius: 8px;
+    width: 97%;
+    transition: transform 1s;
+    position: relative;
+    overflow: hidden;
+    filter: drop-shadow(rgba(0, 0, 0, 0.252) 1px 1px 2px);
+  }
+  
+ .user .image-user {
+    position: relative;
+  }
+  
+ .user .image-user img {
+    width: 100%;
+    border-top-left-radius: 8px;
+    border-top-right-radius: 8px;
+    height:300px;
+
+  }
+  
+/* .user .image-user::after {
+    content: "";
+    position: absolute;
+    left: 0;
+    bottom: 0;
+    width: 100%;
+    height: 50px;
+    background-image: url(../images/team-shape.svg); 
+  }*/
+  .user .info{
+     padding-inline:10px;
+  }
+ .user h3 {
+    padding-top: 20px;
+    padding-bottom: 15px;
+    color: RGB(33, 37, 41);
+    font-family: "Inter", sans-serif;
+    font-size:30px;
+  }
+  
+.user  span {
+    font-size: 15px;
+    font-family: "Open Sans", sans-serif;
+    color: RGB(127, 127, 144);
+  }
+  
+ .user p {
+    padding-inline: 25px;
+    padding-top: 15px;
+    padding-bottom: 30px;
+    font-size: 17px;
+    line-height: 30px;
+    font-family: "Open Sans", sans-serif;
+    color: RGB(127, 127, 144);
+    font-style: italic;
+  }
+
+ .user:hover {
+    transform: scale(1.1);
+  }
+  
+
+
+button {
+    margin-top: 15px;
+    padding: 15px 0px;
+    font-size: 22px;
+    width: 100%;
+    color: #fff;
+    border-radius: 30px;
+    border: none;
+    background-color: hsl(0, 84%, 44%);
+  }
+  
+button:hover {
+    background-color: red;
+  }
+  
