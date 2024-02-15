@@ -11,7 +11,6 @@ class User(models.Model):
     mobilPhone=models.TextField()
     photo=models.TextField()
 
-
     @classmethod
     def userList(self):
         return self.objects.all()

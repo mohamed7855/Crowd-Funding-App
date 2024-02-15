@@ -1,0 +1,99 @@
+{%load static %}
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <link
+      rel="stylesheet"
+      href="{% static 'bootstrap/css/bootstrap.min.css' %}"
+    />
+    <link rel="stylesheet" href="{% static 'css/addUser.css' %}" />
+  </head>
+  <body>
+    <div
+      id="add"
+      class="d-flex justify-content-center align-items-center bg-denger parent"
+    >
+      <div class="container parent mx-auto">
+        <form  method='post' enctype='multipart/form-data'>
+          <h1>Create User</h1>
+        
+         
+      
+        
+            <div class="row gy-3">
+              <div class="col-md-6">
+                <input
+                  type="text"
+                  name="firstName"
+                  required
+                  placeholder="First Name"
+                />
+              </div>
+
+              <div class="col-md-6">
+                <div>
+                  <input
+                   type="text"
+                    name="lastName" 
+                    required
+                    placeholder="Last Name" />
+                </div>
+              </div>
+
+
+       
+             
+            
+
+            </div>
+            <input
+            type="email"
+            name="email"
+            required
+            placeholder="Email"
+          />
+          <input
+          type="text"
+          name="mobilPhone"
+          required
+          placeholder="Phone"
+        />
+          <div class="row gy-3">
+            <div class="col-md-6">
+                <div>
+                  <input
+                   type="password"
+                    name="password" 
+                    required
+                    placeholder="Password" />
+                </div>
+              </div>
+              <div class="col-md-6">
+                <div>
+                  <input
+                   type="password"
+                    name="confirmPass" 
+                    required
+                    placeholder="RePassword" />
+                </div>
+              </div>
+          </div>
+            <input
+            type="file"
+            name="photo"
+            required
+            placeholder="Choose Image"
+          />
+          
+          
+
+          <div class="d-flex justify-content-center align-items-center">
+            <button type="submit">Create User</button>
+          </div>
+        </form>
+      </div>
+    </div>
+  </body>
+</html>

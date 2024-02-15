@@ -1,4 +1,7 @@
 from django.db import models
+
+
+
 from user.models import User
 class Categories(models.Model):
     categoryName = models.CharField(max_length=20)
