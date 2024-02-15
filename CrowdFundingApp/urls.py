@@ -29,5 +29,7 @@ urlpatterns = [
     path('category/', include('fundProject.urls')) ,
 
     path('',include('fundProject.urls')),
+    path('user/', include('user.urls')) ,
+    
 
 ]

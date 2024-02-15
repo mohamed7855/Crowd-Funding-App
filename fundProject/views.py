@@ -1,6 +1,7 @@
-from django.shortcuts import render,HttpResponse,redirect
+from django.shortcuts import render,reverse,HttpResponse,redirect
 from fundProject.models import *
-# Create your views here.
+from django.http import HttpResponse, HttpResponseRedirect
+
 
 def mainPage(request):
 
