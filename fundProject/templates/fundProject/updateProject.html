@@ -1,21 +1,33 @@
 {%extends 'index.html'%} {%load static %} {% block style %}
 <link rel="stylesheet" href="{% static 'bootstrap/css/bootstrap.min.css' %}" />
 <link rel="stylesheet" href="{% static 'css/addProject.css' %}" />
-{% endblock %} {%block content%}
+{%endblock%} {%block content%}
 <div
   id="add"
   class="d-flex justify-content-center align-items-center bg-denger parent"
 >
   <div class="container parent mx-auto">
-    <form method="post" enctype="multipart/form-data">
+    <form action="{% url 'project.update' project.id%}" method="post">
       {%csrf_token%}
-      <h1>Create Project</h1>
-      <input type="text" name="title" required placeholder="Project Title" />
+      <h1>Update Project</h1>
+
+      <div style="width: 150px">
+        <img src="{{project.getImgURL}}" alt="project" style="width: 100%" />
+      </div>
+
+      <input
+        type="text"
+        name="title"
+        required
+        placeholder="Project Title"
+        value="{{project.title}}"
+      />
       <input
         type="text"
         name="projectDetail"
         required
         placeholder="Project Detail"
+        value="{{project.details}}"
       />
 
       <div>
@@ -34,12 +46,19 @@
             name="target"
             required
             placeholder="Total Target"
+            value="{{project.totalTarget}}"
           />
         </div>
 
         <div class="col-md-6">
           <div>
-            <input type="text" name="tag" required placeholder="Tags" />
+            <input
+              type="text"
+              name="tag"
+              required
+              placeholder="Tags"
+              value="{{project.tag}}"
+            />
           </div>
         </div>
 
@@ -54,6 +73,7 @@
               name="sdate"
               required
               placeholder="Start Date"
+              value="{{project.startTime}}"
             />
           </div>
         </div>
@@ -69,6 +89,7 @@
               name="edate"
               required
               placeholder="End Date"
+              value="{{project.endTime}}"
             />
           </div>
         </div>
@@ -77,9 +98,10 @@
       <input type="file" name="image" required placeholder="Choose Image" />
 
       <div class="d-flex justify-content-center align-items-center">
-        <button type="submit">Create Project</button>
+        <button type="submit">Update Project</button>
       </div>
     </form>
   </div>
 </div>
+
 {%endblock%}

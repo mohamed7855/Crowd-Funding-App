@@ -12,7 +12,7 @@ class Project(models.Model):
      totalTarget = models.DecimalField(max_digits=10, decimal_places=2)
      startTime = models.DateTimeField(auto_now=True)
      endTime = models.DateTimeField(auto_now=True)
-     category_id = models.ForeignKey(Categories, on_delete=models.CASCADE)
+     category_id = models.ForeignKey(Categories, on_delete=models.CASCADE,null=True)
      
      
      def _str_(self):
@@ -29,6 +29,27 @@ class Project(models.Model):
      @classmethod
      def projectDelete(self,id):
         return self.objects.filter(id=id).delete()
+     
+     @classmethod
+     def projectAdd(self,request):
+        return self.objects.create(title=request.POST['title'],
+                                   details=request.POST['projectDetail'],
+                                   totalTarget=request.POST['target'],
+                                #    image=request.FILES['pImage'],
+                                #    count=request.POST['pCount'],
+                                #    category=Category.objects.get(id=request.POST['pCategory'])
+                                   )
+     
+     @classmethod
+     def projectUpdate(self,request,id):
+        return self.objects.filter(id=id).update(
+                                title=request.POST['title'],
+                                details=request.POST['projectDetail'],
+                                totalTarget=request.POST['target'],
+                                # image=request.POST['pImage'],
+                                # count=request.POST['pCount'],
+                                # category=Category.objects.get(id=request.POST['pCategory'])
+                                )
 
 class Images (models.Model):
     project_id = models.ForeignKey(Project, on_delete=models.CASCADE)
