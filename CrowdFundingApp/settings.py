@@ -40,6 +40,7 @@ INSTALLED_APPS = [
     'django.contrib.staticfiles',
     'fundProject.apps.FundprojectConfig',
     'user.apps.UserConfig',
+    
 ]
 
 MIDDLEWARE = [

@@ -3,9 +3,14 @@ from django.db import models
 from user.models import User
 
 class Categories(models.Model):
-    categoryName = models.CharField(max_length=20, unique=True)
+    id = models.AutoField(primary_key=True)
+    categoryName = models.CharField(max_length=20, unique=True )
     def __str__(self):
         return self.categoryName
+    class Meta:
+        constraints = [
+            models.UniqueConstraint(fields=['categoryName'], name='unique_category_name')
+        ]
 class Project(models.Model):
      title = models.CharField(max_length=285)
      details = models.TextField()
@@ -89,7 +94,6 @@ class Donation(models.Model):
 
 class Rate(models.Model):
     project_id = models.ForeignKey(Project, on_delete=models.CASCADE)
-    # user_id = models.ForeignKey(User, on_delete=models.CASCADE)
     rate = models.IntegerField()
 
 

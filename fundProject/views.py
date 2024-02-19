@@ -96,14 +96,24 @@ def add_rate(request, project_id):
        
     return redirect('projectDetails', projectid=project_id)
 
-
 def addCategory(request):
     if request.method == 'POST':
         category_name = request.POST.get('categoryName')
-        Categories.objects.create(categoryName=category_name)
-        return redirect('addCategory') 
+        if Categories.objects.filter(categoryName=category_name).exists():
+            messages.error(request, 'Category with this name already exists.')
+        else:
+            Categories.objects.create(categoryName=category_name)
+            return redirect('allCategory') 
     categories = Categories.objects.all()
     return render(request, 'category/addCategory.html', {'categories': categories})
+
+# def addCategory(request):
+#     if request.method == 'POST':
+#         category_name = request.POST.get('categoryName')
+#         Categories.objects.create(categoryName=category_name)
+#         return redirect('allCategory') 
+#     categories = Categories.objects.all()
+#     return render(request, 'category/addCategory.html', {'categories': categories})
 
 def allCategory(request):
     categories = Categories.objects.all()
