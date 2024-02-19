@@ -3,8 +3,8 @@ from django.db import models
 # Create your models here.
 
 class User(models.Model):    
-    firstName=models.IntegerField()
-    lastName=models.IntegerField()
+    firstName=models.TextField()
+    lastName=models.TextField()
     email=models.EmailField()
     password=models.TextField()
     confirmPass=models.TextField()

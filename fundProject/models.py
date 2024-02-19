@@ -1,22 +1,22 @@
 from django.db import models
 
-
-
 from user.models import User
-class Categories(models.Model):
-    categoryName = models.CharField(max_length=20)
 
+class Categories(models.Model):
+    categoryName = models.CharField(max_length=20, unique=True)
+    def __str__(self):
+        return self.categoryName
 class Project(models.Model):
      title = models.CharField(max_length=285)
      details = models.TextField()
      totalTarget = models.DecimalField(max_digits=10, decimal_places=2)
      startTime = models.DateTimeField(auto_now=True)
      endTime = models.DateTimeField(auto_now=True)
-     category_id = models.ForeignKey(Categories, on_delete=models.CASCADE)
+     category_id = models.ForeignKey(Categories, on_delete=models.CASCADE,null=True)
      
      
      def _str_(self):
-        return f"{self.title},{self.category}"
+        return f"{self.title}"
    
      @classmethod
      def projectList(self):
@@ -30,9 +30,50 @@ class Project(models.Model):
      def projectDelete(self,id):
         return self.objects.filter(id=id).delete()
 
+     @classmethod
+     def projectAdd(self,request):
+        category_id = request.POST.get('category', None)
+        category = Categories.objects.get(id=category_id) if category_id else None
+        return self.objects.create(title=request.POST['title'],
+                                   details=request.POST['projectDetail'],
+                                   totalTarget=request.POST['target'],
+                                   category_id=category,
+                                #    image=request.FILES['pImage'],
+                                #    count=request.POST['pCount'],
+                                #    category=Category.objects.get(id=request.POST['pCategory'])
+                                )
+
+     
+     
+     @classmethod
+     def projectUpdate(self,request,id):
+        category_id = request.POST.get('category', None)
+        category = Categories.objects.get(id=category_id) if category_id else None
+        return self.objects.filter(id=id).update(
+                                title=request.POST['title'],
+                                details=request.POST['projectDetail'],
+                                totalTarget=request.POST['target'],
+                                category_id=category 
+                                # image=request.POST['pImage'],
+                                # count=request.POST['pCount'],
+                                # category=Category.objects.get(id=request.POST['pCategory'])
+                                )
+     
+
 class Images (models.Model):
     project_id = models.ForeignKey(Project, on_delete=models.CASCADE)
     img = models.ImageField(blank=False, null=False, upload_to='fundProject/images')
+
+    # Instance methods
+    def getImgURL(self): 
+        return f"/media/{self.img}"
+    
+    @classmethod
+    def imageList(self):
+        return self.objects.all()
+    
+    def _str_(self):
+        return f"{self.img}"
     
     
 class Tags (models.Model):
@@ -48,15 +89,14 @@ class Donation(models.Model):
 
 class Rate(models.Model):
     project_id = models.ForeignKey(Project, on_delete=models.CASCADE)
-    user_id = models.ForeignKey(User, on_delete=models.CASCADE)
+    # user_id = models.ForeignKey(User, on_delete=models.CASCADE)
     rate = models.IntegerField()
 
 
 class Comment(models.Model):
-    user_id = models.ForeignKey(User, on_delete=models.CASCADE)
     project_id = models.ForeignKey(Project, on_delete=models.CASCADE)
     comment = models.TextField(default='')
-
+    # user_id = models.ForeignKey(User, on_delete=models.CASCADE)
 
 class CommentReports(models.Model):
     comment_id = models.ForeignKey(Comment, on_delete=models.CASCADE)
