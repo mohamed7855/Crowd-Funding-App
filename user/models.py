@@ -11,6 +11,7 @@ class User(models.Model):
     confirmPass=models.TextField()
     mobilPhone=models.TextField()
     photo=models.TextField()
+    is_active = models.BooleanField(default=False)
 
     @classmethod
     def userList(self):

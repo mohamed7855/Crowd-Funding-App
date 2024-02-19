@@ -7,9 +7,15 @@ from .models import Images
 from .models import Rate
 from django.contrib import messages
 from django.http import Http404
-def mainPage(request):
-    return  render(request,'index.html')
 
+
+from django.contrib.auth.decorators import login_required
+
+
+def mainPage(request):
+    return  render(request,'fundProject/home.html')
+
+@login_required()
 def addProject(request):
     categories = Categories.objects.all()
     if request.method == 'POST':
@@ -30,7 +36,7 @@ def projectList(request):
 
     context = {'projects': projects}
     context['imgs']=Images.imageList()
-    return  render(request,'index.html',context)
+    return  render(request,'fundProject/home.html',context)
 
 
 def formatDate(input_date):
@@ -85,25 +91,44 @@ def CommentDelete(request, id, comment_id):
         return redirect('comment', id=id)  
     return redirect('comment', id=id)  
 
+# def add_rate(request, project_id):
+#     if request.method == 'GET':
+#         rate = request.GET.get('rate')
+#         if rate is not None and rate.isdigit():
+#             rate = int(rate)
+#             project = get_object_or_404(Project, pk=project_id)
+#             Rate.objects.create(project_id=project, rate=rate)
+#             return redirect('projectDetails', projectid=project_id)
+#     return redirect('projectDetails', projectid=project_id)
 def add_rate(request, project_id):
     if request.method == 'GET':
         rate = request.GET.get('rate')
         if rate is not None and rate.isdigit():
             rate = int(rate)
-            project = get_object_or_404(Project, pk=project_id)
-            Rate.objects.create(project_id=project, rate=rate)
-            return redirect('projectDetails', projectid=project_id)
-       
+            if 0 <= rate <= 10:  
+                project = get_object_or_404(Project, pk=project_id)
+                Rate.objects.create(project_id=project, rate=rate)
+                return redirect('projectDetails', projectid=project_id)
+            else:
+                messages.error(request, 'Rate must be between 0 and 10.')
+        else:
+            messages.error(request, 'Rate must be Postive Number')
     return redirect('projectDetails', projectid=project_id)
-
 
 def addCategory(request):
     if request.method == 'POST':
         category_name = request.POST.get('categoryName')
+        if Categories.objects.filter(categoryName=category_name).exists():
+            messages.error(request, 'Category with this name already exists.')
+            return redirect('addCategory')
+        else:
+            Categories.objects.create(categoryName=category_name)
+            return redirect('allCategory') 
         Categories.objects.create(categoryName=category_name)
-        return redirect('addCategory') 
+        return HttpResponseRedirect(reverse('allCategory'))
     categories = Categories.objects.all()
     return render(request, 'category/addCategory.html', {'categories': categories})
+
 
 def allCategory(request):
     categories = Categories.objects.all()
