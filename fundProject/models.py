@@ -94,10 +94,9 @@ class Rate(models.Model):
 
 
 class Comment(models.Model):
-    user_id = models.ForeignKey(User, on_delete=models.CASCADE)
     project_id = models.ForeignKey(Project, on_delete=models.CASCADE)
     comment = models.TextField(default='')
-
+    # user_id = models.ForeignKey(User, on_delete=models.CASCADE)
 
 class CommentReports(models.Model):
     comment_id = models.ForeignKey(Comment, on_delete=models.CASCADE)

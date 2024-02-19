@@ -12,10 +12,12 @@ urlpatterns = [
     path('allCategory/', views.allCategory, name='allCategory'),
     path('delete-category/', views.deleteCategory, name='deleteCategory'),
     path('add_rate/<int:project_id>/', views.add_rate, name='add_rate'),
+    path('comment/<int:id>',views.comment,name="comment"),    
+    path('comment/<int:id>/delete/<int:comment_id>/', views.CommentDelete, name='CommentDelete')
     
-    
-    
-    # path('', mainPage, name='mainPage'),
+]
+
+# path('', mainPage, name='mainPage'),
     # path('addProject/', addProject, name='addProject'),
     # path('detailProject/',detailProject, name='detailProject'),
     # path('projectList/<int:id>/', projectList),
@@ -23,5 +25,3 @@ urlpatterns = [
     # path('addCommentOnProject/<int:id>/', addCommentOnProject),
     # path('reportComment/<int:id>/', reportComment),
     # path('cancelProject/<int:id>/', cancelProject),
-]
-

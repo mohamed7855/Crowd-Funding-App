@@ -22,26 +22,6 @@ def addProject(request):
                     image.save()
         return HttpResponseRedirect(reverse('project.all'))
     return render(request,'fundProject/addProject.html', {'categories': categories})
-# def addProject(request):
-#     categories = Categories.objects.all()
-#     if request.method == 'POST':
-#         category_id = request.POST.get('category', None)
-#         category = Categories.objects.get(id=category_id) if category_id else None
-        
-#         project = Project.projectAdd(
-#             title=request.POST['title'],
-#             details=request.POST['projectDetail'],
-#             totalTarget=request.POST['target'],
-#             category_id=category 
-#         )
-        
-#         images = request.FILES.getlist('projectimage[]')
-#         if images:
-#             for img in images:
-#                 image = Images.objects.create(img=img, project_id=project)
-#                 image.save()
-#         return HttpResponseRedirect(reverse('project.all'))
-#     return render(request, 'fundProject/addProject.html', {'categories': categories})
 
 def projectList(request):
     projects = Project.objects.all()
@@ -72,37 +52,38 @@ def projectUpdate(request, id):
     return render(request, 'fundProject/updateProject.html', context)
 
 
-# def projectUpdate(request,id):
-#     project=Project.projectDetails(id)
-#     project.startTime = formatDate(project.startTime)
-#     project.endTime = formatDate(project.endTime)
-#     context={'project':project}
-#     if request.method == 'POST':
-#             if (request.POST['title'] != ''):
-#                 Project.projectUpdate(request,id)
-#                 return HttpResponseRedirect(reverse('project.all'))
-#             else:
-#                 context['msg']='Kindly fill all fields'
-#     return render(request,'fundProject/updateProject.html',context)
-
 def projectDelete(request,id):
     Project.projectDelete(id)
     return HttpResponseRedirect(reverse('project.all'))
 
 
-# def projectDetails(request,projectid):
-#     obj=Project.projectDetails(projectid)
-#     setattr(obj, 'img', Images.objects.filter(project_id=obj))
-#     context={'project':obj}
-#     return  render(request,'fundProject/detailProject.html',context)
 
-def projectDetails(request,projectid):
-    obj=Project.projectDetails(projectid)
+def projectDetails(request, projectid):
+    obj = Project.projectDetails(projectid)
     setattr(obj, 'img', Images.objects.filter(project_id=obj))
     last_rate = Rate.objects.filter(project_id=obj).order_by('-id').first()
-    context={'project':obj, 'last_rate': last_rate}
-    return  render(request,'fundProject/detailProject.html',context)
+    comments = Comment.objects.filter(project_id=obj)  # Retrieve comments associated with the project
+    context = {'project': obj, 'last_rate': last_rate, 'comments': comments}
+    return render(request, 'fundProject/detailProject.html', context)
 
+def comment(request, id):
+    obj = Project.projectDetails(id)
+    if request.method == 'POST':
+        comment_text = request.POST.get('comment_text')
+        if comment_text:
+            Comment.objects.create(project_id=obj, comment=comment_text)
+    comments = Comment.objects.filter(project_id=obj)
+    context = {'project': obj, 'comments': comments}
+    return render(request, 'fundProject/comment.html', context)
+
+def CommentDelete(request, id, comment_id):
+    obj = Project.projectDetails(id)
+    comments = Comment.objects.filter(project_id=obj)
+    comment = get_object_or_404(comments, pk=comment_id)
+    if request.method == 'POST':
+        comment.delete()
+        return redirect('comment', id=id)  
+    return redirect('comment', id=id)  
 
 def add_rate(request, project_id):
     if request.method == 'GET':
@@ -138,6 +119,32 @@ def deleteCategory(request):
 
 
 
+# def add_all_Comment(request, id):
+#     if request.method == 'POST':
+#         comment_text = request.POST.get('comment_text')
+#         if comment_text:
+#             project = Project.objects.get(pk=id)
+#             Comment.objects.create(project_id=project, comment=comment_text)
+#     # Redirect back to the project detail page
+#     return redirect('projectDetails', projectid=id)
+
+# def add_all_Comment(request, id):
+#     if request.method == 'POST':
+#         comment = request.POST.get('comment')
+#         if comment:
+#             project = Project.objects.get(pk=id)
+#             Comment.objects.create(project_id=project, comment=comment)
+#             return redirect('add_all_Comment') 
+#     comments = Comment.objects.all()
+#     return render(request, 'fundProject/comment.html', {'comments': comments})
+
+# def projectDetails(request,projectid):
+#     obj=Project.projectDetails(projectid)
+#     setattr(obj, 'img', Images.objects.filter(project_id=obj))
+#     context={'project':obj}
+#     return  render(request,'fundProject/detailProject.html',context)
+
+
 # def addProject(request):
 #      return  render(request,'fundProject/addProject.html')
 
@@ -170,7 +177,40 @@ def deleteCategory(request):
     
 #     return HttpResponse(f'cancel Project {id}')
 
+# def addProject(request):
+#     categories = Categories.objects.all()
+#     if request.method == 'POST':
+#         category_id = request.POST.get('category', None)
+#         category = Categories.objects.get(id=category_id) if category_id else None
+        
+#         project = Project.projectAdd(
+#             title=request.POST['title'],
+#             details=request.POST['projectDetail'],
+#             totalTarget=request.POST['target'],
+#             category_id=category 
+#         )
+        
+#         images = request.FILES.getlist('projectimage[]')
+#         if images:
+#             for img in images:
+#                 image = Images.objects.create(img=img, project_id=project)
+#                 image.save()
+#         return HttpResponseRedirect(reverse('project.all'))
+#     return render(request, 'fundProject/addProject.html', {'categories': categories})
 
 
 
+
+# def projectUpdate(request,id):
+#     project=Project.projectDetails(id)
+#     project.startTime = formatDate(project.startTime)
+#     project.endTime = formatDate(project.endTime)
+#     context={'project':project}
+#     if request.method == 'POST':
+#             if (request.POST['title'] != ''):
+#                 Project.projectUpdate(request,id)
+#                 return HttpResponseRedirect(reverse('project.all'))
+#             else:
+#                 context['msg']='Kindly fill all fields'
+#     return render(request,'fundProject/updateProject.html',context)
 
