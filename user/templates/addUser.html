@@ -1,14 +1,14 @@
-{%extends 'index.html'%} {%load static %} {%block content%} {% block style %} {%
-block style %}
-<link rel="stylesheet" href="{% static 'css/addUser.css' %}" />
+{%extends 'index.html'%} {%load static %} 
+{%block style %}
+<link rel="stylesheet" href="{% static 'css/StyleAddUser.css' %}" />
 {% endblock %}
-
+{%block content%} 
 <div
   id="add"
   class="d-flex justify-content-center align-items-center bg-denger parent"
 >
   <div class="container parent mx-auto">
-    <form method="post" enctype="multipart/form-data">
+    <form method="post" class="style_form" enctype="multipart/form-data">
       <h1>Create User</h1>
 
       <div class="row gy-3">

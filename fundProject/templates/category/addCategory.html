@@ -3,13 +3,13 @@
 
 {% block style %}
 <link rel="stylesheet" href="{% static 'bootstrap/css/bootstrap.min.css' %}" />
-<link rel="stylesheet" href="{% static 'css/addProject.css' %}" />
+<link rel="stylesheet" href="{% static 'css/styleAdd.css' %}" />
 {% endblock %}
 
 {% block content %}
 <div  class="d-flex justify-content-center align-items-center  parent">
     <div class="container parent mx-auto">
-        <form method='post' enctype='multipart/form-data'>
+        <form method='post' class='sytle_form' enctype='multipart/form-data'>
             {% csrf_token %}
             <h1>Create Category</h1>
             <input type="text" name="categoryName" required placeholder="Category Name" />

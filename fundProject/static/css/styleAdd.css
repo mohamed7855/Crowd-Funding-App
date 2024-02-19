@@ -1,34 +1,39 @@
-#add {
-  min-height: 100vh;
+
+#add{
+  min-height:100vh ;
+ 
 }
 
-form {
+.sytle_form {
   margin-block: 35px;
   background-color: #fff;
   padding: 20px;
   filter: drop-shadow(rgba(0, 0, 0, 0.45) 1px 1px 1px);
 }
 
-form h1 {
+.sytle_form h1{
   text-align: center;
   font-size: 40px;
   font-weight: bold;
   padding-bottom: 5px;
   color: hsl(0, 84%, 44%);
 }
-form input {
+.sytle_form input ,select
+{
   padding: 17px 15px;
   margin-block: 20px;
   width: 100% !important;
   border: 2px solid black;
 }
 
-form input:focus {
+
+
+.sytle_form input:focus {
   border: 2px solid hsl(0, 84%, 44%);
   outline: none;
 }
 
-form button {
+.sytle_form button {
   padding: 18px 38px;
   font-size: 18px;
   color: #fff;
@@ -37,14 +42,11 @@ form button {
   background-color: hsl(0, 84%, 44%);
 }
 
-form button:hover {
+.sytle_form button:hover {
   background-color: red;
 }
 
-form label span {
+.sytle_form label span{
   font-size: 20px;
   font-weight: bold;
 }
-
-
-
