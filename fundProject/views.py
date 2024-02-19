@@ -1,10 +1,12 @@
-from django.shortcuts import render,reverse,redirect
+from django.shortcuts import render,reverse,redirect, get_object_or_404
 from fundProject.models import *
 from django.http import HttpResponse, HttpResponseRedirect
 from datetime import datetime
 from .models import Categories
 from .models import Images
-
+from .models import Rate
+from django.contrib import messages
+from django.http import Http404
 def mainPage(request):
     return  render(request,'index.html')
 
@@ -88,14 +90,30 @@ def projectDelete(request,id):
     return HttpResponseRedirect(reverse('project.all'))
 
 
+# def projectDetails(request,projectid):
+#     obj=Project.projectDetails(projectid)
+#     setattr(obj, 'img', Images.objects.filter(project_id=obj))
+#     context={'project':obj}
+#     return  render(request,'fundProject/detailProject.html',context)
+
 def projectDetails(request,projectid):
     obj=Project.projectDetails(projectid)
     setattr(obj, 'img', Images.objects.filter(project_id=obj))
-    context={'project':obj}
+    last_rate = Rate.objects.filter(project_id=obj).order_by('-id').first()
+    context={'project':obj, 'last_rate': last_rate}
     return  render(request,'fundProject/detailProject.html',context)
 
 
-
+def add_rate(request, project_id):
+    if request.method == 'GET':
+        rate = request.GET.get('rate')
+        if rate is not None and rate.isdigit():
+            rate = int(rate)
+            project = get_object_or_404(Project, pk=project_id)
+            Rate.objects.create(project_id=project, rate=rate)
+            return redirect('projectDetails', projectid=project_id)
+       
+    return redirect('projectDetails', projectid=project_id)
 
 
 def addCategory(request):
@@ -116,6 +134,8 @@ def deleteCategory(request):
         category = Categories.objects.get(pk=category_id)
         category.delete()
     return redirect('allCategory')
+
+
 
 
 # def addProject(request):

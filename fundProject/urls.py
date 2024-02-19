@@ -11,7 +11,7 @@ urlpatterns = [
     path('addCategory/', views.addCategory, name='addCategory'),
     path('allCategory/', views.allCategory, name='allCategory'),
     path('delete-category/', views.deleteCategory, name='deleteCategory'),
-    
+    path('add_rate/<int:project_id>/', views.add_rate, name='add_rate'),
     
     
     

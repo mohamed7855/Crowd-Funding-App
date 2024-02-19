@@ -1,6 +1,13 @@
-{%extends 'index.html'%} {%load static %} {%block content%}
-<div id="home" class="d-flex justify-content-center align-items-center">
-  <div class="container my-5 mx-auto shadow" id="section_detail">
+{% extends 'index.html' %}
+{% load static %}
+{% block style %}
+{% comment %} <link rel="stylesheet" href="{% static 'bootstrap/css/bootstrap.min.css' %}" /> {% endcomment %}
+<link rel="stylesheet" href="{% static 'css/all.min.css' %}" />
+{% endblock %}
+{% block content %}
+
+<div id="home" class=" d-flex justify-content-center align-items-center">
+  <div class="container my-5 py-3 mx-auto shadow" id="section_detail">
     <div class="d-flex justify-content-center align-items-center parent-image">
       <div class="oval-image">
         <img src="{{ project.img.0.getImgURL }}" alt="" width="100%" />
@@ -9,34 +16,57 @@
 
     <div>
       <div class="text-center detail-info">
-        <h2>{{project.title}}</h2>
+        <h2>{{ project.title }}</h2>
 
         <div class="d-flex justify-content-center align-items-center">
-          <h4>Details :</h4>
-          <span>{{project.details}}</span>
+          <h4>Details:</h4>
+          <span>{{ project.details }}</span>
         </div>
 
         <div class="d-flex justify-content-center align-items-center">
-          <h4>Total Target :</h4>
-          <span>{{project.totalTarget}}</span>
+          <h4>Total Target:</h4>
+          <span>{{ project.totalTarget }}</span>
         </div>
         <div class="d-flex justify-content-center align-items-center">
-          <h4>Start Date :</h4>
-          <span>{{project.startTime}}</span>
+          <h4>Start Date:</h4>
+          <span>{{ project.startTime }}</span>
         </div>
         <div class="d-flex justify-content-center align-items-center">
-          <h4>End Date :</h4>
-          <span>{{project.endTime}}</span>
+          <h4>End Date:</h4>
+          <span>{{ project.endTime }}</span>
         </div>
-        <div
-          class="d-flex flex-column justify-content-center align-items-center"
-        >
-          <h4>Category :</h4>
-          <p>{{project.category_id}}</p>
+        <div class="d-flex justify-content-center align-items-center">
+          <h4>Category:</h4>
+          <p>{{ project.category_id }}</p>
+        </div>
+       
+        {% if last_rate%}
+        <div class='d-flex justify-content-center align-items-center'>
+          <h4>Rate:</h4>
+          <h5 class='center mx-2'>{{ last_rate.rate }}
+            <i class="fas fa-star text-warning fs-5"></i>
+
+          </h5>
+        </div>
+        {% endif %}
+        
+        <div class="d-flex  justify-content-center align-items-center">
+          <button id="addRateBtn" class="btn btn-primary">Add Rate</button>
         </div>
       </div>
     </div>
   </div>
 </div>
 
-{%endblock%}
+<script>
+  document.getElementById('addRateBtn').addEventListener('click', function() {
+    var rate = prompt('Enter rate:');
+    if (rate !== null && rate !== '') {
+      window.location.href = "{% url 'add_rate' project.id %}?rate=" + rate;
+    }
+    
+  });
+</script>
+
+{% endblock %}
+ 
