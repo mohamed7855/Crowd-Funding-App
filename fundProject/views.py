@@ -2,19 +2,33 @@ from django.shortcuts import render,reverse,redirect
 from fundProject.models import *
 from django.http import HttpResponse, HttpResponseRedirect
 from datetime import datetime
+from .models import Images
 
 def mainPage(request):
     return  render(request,'index.html')
 
 def addProject(request):
     if request.method == 'POST':
-        Project.projectAdd(request)
+        print('aaaaaaaaaaaaaaaaaaaaaaaaaaa')
+        project=Project.projectAdd(request)
+        print('aaaaaaaaaaaaaaaaaaaaaaaaaaa2222')
+
+        print('Project added', project.id)
+        images = request.FILES.getlist('projectimage[]')
+        if images:
+                for i in images:
+                    image = Images(img=i, project_id=project)
+                    image.save()
         return HttpResponseRedirect(reverse('project.all'))
     return render(request,'fundProject/addProject.html')
 
 def projectList(request):
-    context={'projects':Project.projectList()}
-    print(context)
+    projects = Project.objects.all()
+    for project in projects:
+        setattr(project, 'img', Images.objects.filter(project_id=project))
+
+    context = {'projects': projects}
+    context['imgs']=Images.imageList()
     return  render(request,'index.html',context)
 
 
@@ -45,6 +59,8 @@ def projectDelete(request,id):
 
 def projectDetails(request,projectid):
     obj=Project.projectDetails(projectid)
+    setattr(obj, 'img', Images.objects.filter(project_id=obj))
+
     context={'project':obj}
     return  render(request,'fundProject/detailProject.html',context)
 

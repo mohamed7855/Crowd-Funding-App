@@ -1,4 +1,5 @@
 from django.db import models
+# from unicodedata import category
 
 
 
@@ -16,7 +17,7 @@ class Project(models.Model):
      
      
      def _str_(self):
-        return f"{self.title},{self.category}"
+        return f"{self.title}"
    
      @classmethod
      def projectList(self):
@@ -31,14 +32,14 @@ class Project(models.Model):
         return self.objects.filter(id=id).delete()
      
      @classmethod
-     def projectAdd(self,request):
+     def projectAdd(self,request):  
         return self.objects.create(title=request.POST['title'],
                                    details=request.POST['projectDetail'],
                                    totalTarget=request.POST['target'],
-                                #    image=request.FILES['pImage'],
-                                #    count=request.POST['pCount'],
-                                #    category=Category.objects.get(id=request.POST['pCategory'])
+                                #    startTime = request.POST['startdate'],
+                                #    endTime = request.POST['enddate'],
                                    )
+     
      
      @classmethod
      def projectUpdate(self,request,id):
@@ -50,10 +51,22 @@ class Project(models.Model):
                                 # count=request.POST['pCount'],
                                 # category=Category.objects.get(id=request.POST['pCategory'])
                                 )
+     
 
 class Images (models.Model):
     project_id = models.ForeignKey(Project, on_delete=models.CASCADE)
     img = models.ImageField(blank=False, null=False, upload_to='fundProject/images')
+
+    # Instance methods
+    def getImgURL(self): 
+        return f"/media/{self.img}"
+    
+    @classmethod
+    def imageList(self):
+        return self.objects.all()
+    
+    def _str_(self):
+        return f"{self.img}"
     
     
 class Tags (models.Model):
