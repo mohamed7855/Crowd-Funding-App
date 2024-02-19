@@ -3,13 +3,13 @@
 
 {% block style %}
 <link rel="stylesheet" href="{% static 'bootstrap/css/bootstrap.min.css' %}" />
-<link rel="stylesheet" href="{% static 'css/addProject.css' %}" />
+<link rel="stylesheet" href="{% static 'css/styleAdd.css' %}" />
 {% endblock %}
 
 {% block content %}
 <div id="add" class="d-flex justify-content-center align-items-center bg-denger parent">
   <div class="container parent mx-auto">
-    <form action="{% url 'project.update' project.id %}" method="post">
+    <form action="{% url 'project.update' project.id %}" class="sytle_form" method="post">
       {% csrf_token %}
       <h1>Update Project</h1>
 
@@ -20,14 +20,7 @@
       <input type="text" name="title" required placeholder="Project Title" value="{{ project.title }}" />
       <input type="text" name="projectDetail" required placeholder="Project Detail" value="{{ project.details }}" />
 
-      {% comment %} <div>
-        <select name="category" id="category">
-          <option value="" disabled selected hidden>Project Category</option>
-          {% for category in categories %}
-            <option value="{{ category.id }}" {% if category.id == project.category_id %}selected{% endif %}>{{ category.categoryName }}</option>
-          {% endfor %}
-        </select>
-      </div> {% endcomment %}
+      
       <div>
         <select name="category" id="category">
           <option value="" disabled selected hidden>Project Category</option>
