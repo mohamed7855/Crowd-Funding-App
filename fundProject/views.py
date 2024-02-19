@@ -7,7 +7,7 @@ from .models import Images
 from .models import Rate
 from django.contrib import messages
 from django.http import Http404
-
+from django.db.models import Sum
 
 from django.contrib.auth.decorators import login_required
 
@@ -58,18 +58,26 @@ def projectUpdate(request, id):
     return render(request, 'fundProject/updateProject.html', context)
 
 
-def projectDelete(request,id):
-    Project.projectDelete(id)
-    return HttpResponseRedirect(reverse('project.all'))
 
+def projectDelete(request, id):
+    project = Project.objects.get(id=id)
+    total_donations = Donation.objects.filter(project_id=project).aggregate(total_donations=Sum('donation_value'))['total_donations']
+    total_target_float = float(project.totalTarget)
+    if total_donations is not None and total_donations > total_target_float * 0.25:
+        messages.error(request, 'Cannot delete project: total donations exceed 25% of the total target.')
+    else:
+        Project.projectDelete(id)
+        messages.error(request, 'Succuess Delete Project')
+    return HttpResponseRedirect(reverse('project.all'))
 
 
 def projectDetails(request, projectid):
     obj = Project.projectDetails(projectid)
     setattr(obj, 'img', Images.objects.filter(project_id=obj))
     last_rate = Rate.objects.filter(project_id=obj).order_by('-id').first()
-    comments = Comment.objects.filter(project_id=obj)  # Retrieve comments associated with the project
-    context = {'project': obj, 'last_rate': last_rate, 'comments': comments}
+    sum_donate = Donation.objects.filter(project_id=obj).aggregate(Sum('donation_value'))['donation_value__sum']
+    comments = Comment.objects.filter(project_id=obj)  
+    context = {'project': obj, 'last_rate': last_rate, 'sum_donate': sum_donate, 'comments': comments}
     return render(request, 'fundProject/detailProject.html', context)
 
 def comment(request, id):
@@ -91,15 +99,7 @@ def CommentDelete(request, id, comment_id):
         return redirect('comment', id=id)  
     return redirect('comment', id=id)  
 
-# def add_rate(request, project_id):
-#     if request.method == 'GET':
-#         rate = request.GET.get('rate')
-#         if rate is not None and rate.isdigit():
-#             rate = int(rate)
-#             project = get_object_or_404(Project, pk=project_id)
-#             Rate.objects.create(project_id=project, rate=rate)
-#             return redirect('projectDetails', projectid=project_id)
-#     return redirect('projectDetails', projectid=project_id)
+
 def add_rate(request, project_id):
     if request.method == 'GET':
         rate = request.GET.get('rate')
@@ -113,6 +113,21 @@ def add_rate(request, project_id):
                 messages.error(request, 'Rate must be between 0 and 10.')
         else:
             messages.error(request, 'Rate must be Postive Number')
+    return redirect('projectDetails', projectid=project_id)
+
+def add_donate(request, project_id):
+    if request.method == 'GET':
+        donation_value = request.GET.get('donation_value')
+        if donation_value is not None and donation_value.isdigit():
+            donation_value = int(donation_value)
+            if donation_value > 0: 
+                project = get_object_or_404(Project, pk=project_id)
+                Donation.objects.create(project_id=project, donation_value=donation_value)
+                return redirect('projectDetails', projectid=project_id)
+            else:
+                messages.error(request, 'Donation value must be a positive number.')
+        else:
+            messages.error(request, 'Invalid donation value.')
     return redirect('projectDetails', projectid=project_id)
 
 def addCategory(request):

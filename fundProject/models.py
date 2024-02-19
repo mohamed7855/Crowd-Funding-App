@@ -88,7 +88,7 @@ class Tags (models.Model):
 
 class Donation(models.Model):
     project_id = models.ForeignKey(Project, on_delete=models.CASCADE)
-    user_id = models.ForeignKey(User, on_delete=models.CASCADE)
+    # user_id = models.ForeignKey(User, on_delete=models.CASCADE)
     donation_value = models.IntegerField()
 
 
