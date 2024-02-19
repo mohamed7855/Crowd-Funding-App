@@ -3,7 +3,9 @@ from . import views
 
 
 urlpatterns = [
-    path('',views.projectList,name="project.all"),
+
+    path('',views.mainPage,name="project.mainpage"),
+    path('projectlist/',views.projectList,name="project.all"),
     path('<int:projectid>',views.projectDetails,name="projectDetails"),
     path('New',views.addProject,name="projectAdd"),
     path('Delete/<int:id>',views.projectDelete,name="project.delete"),

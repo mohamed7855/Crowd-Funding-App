@@ -7,8 +7,11 @@ from .models import Images
 from .models import Rate
 from django.contrib import messages
 from django.http import Http404
+
+
+
 def mainPage(request):
-    return  render(request,'index.html')
+    return  render(request,'fundProject/home.html')
 
 def addProject(request):
     categories = Categories.objects.all()
@@ -30,7 +33,7 @@ def projectList(request):
 
     context = {'projects': projects}
     context['imgs']=Images.imageList()
-    return  render(request,'index.html',context)
+    return  render(request,'fundProject/home.html',context)
 
 
 def formatDate(input_date):
