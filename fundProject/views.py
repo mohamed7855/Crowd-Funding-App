@@ -7,9 +7,12 @@ from .models import Images
 from .models import Rate
 from django.contrib import messages
 from django.http import Http404
+from django.contrib.auth.decorators import login_required
+
 def mainPage(request):
     return  render(request,'index.html')
 
+@login_required()
 def addProject(request):
     categories = Categories.objects.all()
     if request.method == 'POST':
@@ -101,7 +104,7 @@ def addCategory(request):
     if request.method == 'POST':
         category_name = request.POST.get('categoryName')
         Categories.objects.create(categoryName=category_name)
-        return redirect('addCategory') 
+        return HttpResponseRedirect(reverse('allCategory'))
     categories = Categories.objects.all()
     return render(request, 'category/addCategory.html', {'categories': categories})
 
