@@ -48,8 +48,13 @@
 
           </h5>
         </div>
+
         {% endif %}
-        
+        {% if messages %}
+        {% for message in messages %}
+            <p class="text-danger fs-3">{{ message }}</p>
+        {% endfor %}
+    {% endif %}
         <div class="d-flex  justify-content-center align-items-center">
           <button id="addRateBtn" class="btn btn-primary">Add Rate</button>
         </div>

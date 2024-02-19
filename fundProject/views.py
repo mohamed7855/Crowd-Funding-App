@@ -88,15 +88,28 @@ def CommentDelete(request, id, comment_id):
         return redirect('comment', id=id)  
     return redirect('comment', id=id)  
 
+# def add_rate(request, project_id):
+#     if request.method == 'GET':
+#         rate = request.GET.get('rate')
+#         if rate is not None and rate.isdigit():
+#             rate = int(rate)
+#             project = get_object_or_404(Project, pk=project_id)
+#             Rate.objects.create(project_id=project, rate=rate)
+#             return redirect('projectDetails', projectid=project_id)
+#     return redirect('projectDetails', projectid=project_id)
 def add_rate(request, project_id):
     if request.method == 'GET':
         rate = request.GET.get('rate')
         if rate is not None and rate.isdigit():
             rate = int(rate)
-            project = get_object_or_404(Project, pk=project_id)
-            Rate.objects.create(project_id=project, rate=rate)
-            return redirect('projectDetails', projectid=project_id)
-       
+            if 0 <= rate <= 10:  
+                project = get_object_or_404(Project, pk=project_id)
+                Rate.objects.create(project_id=project, rate=rate)
+                return redirect('projectDetails', projectid=project_id)
+            else:
+                messages.error(request, 'Rate must be between 0 and 10.')
+        else:
+            messages.error(request, 'Rate must be Postive Number')
     return redirect('projectDetails', projectid=project_id)
 
 def addCategory(request):
@@ -113,13 +126,6 @@ def addCategory(request):
     categories = Categories.objects.all()
     return render(request, 'category/addCategory.html', {'categories': categories})
 
-# def addCategory(request):
-#     if request.method == 'POST':
-#         category_name = request.POST.get('categoryName')
-#         Categories.objects.create(categoryName=category_name)
-#         return redirect('allCategory') 
-#     categories = Categories.objects.all()
-#     return render(request, 'category/addCategory.html', {'categories': categories})
 
 def allCategory(request):
     categories = Categories.objects.all()
