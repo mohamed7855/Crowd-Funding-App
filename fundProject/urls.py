@@ -9,6 +9,7 @@ urlpatterns = [
     path('Delete/<int:id>',views.projectDelete,name="project.delete"),
     path('Update/<int:id>',views.projectUpdate,name="project.update"),
     path('addCategory/', views.addCategory, name='addCategory'),
+    path('allCategory/', views.allCategory, name='allCategory'),
     path('delete-category/', views.deleteCategory, name='deleteCategory'),
     
     

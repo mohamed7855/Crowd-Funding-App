@@ -17,6 +17,8 @@ Including another URLconf
 from django.contrib import admin
 from django.urls import include, path
 from fundProject import  views as MainPage
+from .settings import *
+from django.conf.urls.static import static
 
 urlpatterns = [
     path('admin/', admin.site.urls),
@@ -29,4 +31,4 @@ urlpatterns = [
     path('user/', include('user.urls')) ,
  #  path('',include('fundProject.urls')),
 
-]
+]+static(MEDIA_URL, document_root=MEDIA_ROOT)

@@ -1,9 +1,11 @@
 from django.db import models
+
 from user.models import User
 
 class Categories(models.Model):
-    categoryName = models.CharField(max_length=20)
-
+    categoryName = models.CharField(max_length=20, unique=True)
+    def __str__(self):
+        return self.categoryName
 class Project(models.Model):
      title = models.CharField(max_length=285)
      details = models.TextField()
@@ -14,7 +16,7 @@ class Project(models.Model):
      
      
      def _str_(self):
-        return f"{self.title},{self.category}"
+        return f"{self.title}"
    
      @classmethod
      def projectList(self):
@@ -27,7 +29,7 @@ class Project(models.Model):
      @classmethod
      def projectDelete(self,id):
         return self.objects.filter(id=id).delete()
-     
+
      @classmethod
      def projectAdd(self,request):
         category_id = request.POST.get('category', None)
@@ -35,11 +37,13 @@ class Project(models.Model):
         return self.objects.create(title=request.POST['title'],
                                    details=request.POST['projectDetail'],
                                    totalTarget=request.POST['target'],
-                                   category=category,
+                                   category_id=category,
                                 #    image=request.FILES['pImage'],
                                 #    count=request.POST['pCount'],
                                 #    category=Category.objects.get(id=request.POST['pCategory'])
-                                   )
+                                )
+
+     
      
      @classmethod
      def projectUpdate(self,request,id):
@@ -49,15 +53,27 @@ class Project(models.Model):
                                 title=request.POST['title'],
                                 details=request.POST['projectDetail'],
                                 totalTarget=request.POST['target'],
-                                category=category
+                                category_id=category 
                                 # image=request.POST['pImage'],
                                 # count=request.POST['pCount'],
                                 # category=Category.objects.get(id=request.POST['pCategory'])
                                 )
+     
 
 class Images (models.Model):
     project_id = models.ForeignKey(Project, on_delete=models.CASCADE)
     img = models.ImageField(blank=False, null=False, upload_to='fundProject/images')
+
+    # Instance methods
+    def getImgURL(self): 
+        return f"/media/{self.img}"
+    
+    @classmethod
+    def imageList(self):
+        return self.objects.all()
+    
+    def _str_(self):
+        return f"{self.img}"
     
     
 class Tags (models.Model):
