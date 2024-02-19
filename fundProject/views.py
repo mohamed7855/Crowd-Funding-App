@@ -2,24 +2,22 @@ from django.shortcuts import render,reverse,redirect
 from fundProject.models import *
 from django.http import HttpResponse, HttpResponseRedirect
 from datetime import datetime
-
+from .models import Categories
 def mainPage(request):
     return  render(request,'index.html')
 
 def addProject(request):
+    categories = Categories.objects.all()
     if request.method == 'POST':
         Project.projectAdd(request)
         return HttpResponseRedirect(reverse('project.all'))
-    return render(request,'fundProject/addProject.html')
+    return render(request,'fundProject/addProject.html', {'categories': categories})
 
 def projectList(request):
     context={'projects':Project.projectList()}
     print(context)
     return  render(request,'index.html',context)
 
-
-
- 
 
 def formatDate(input_date):
     formatted_date = input_date.strftime('%Y-%m-%d')
@@ -52,21 +50,21 @@ def projectDetails(request,projectid):
 
 
 
-# def addCategory(request):
-#     if request.method == 'POST':
-#         category_name = request.POST.get('categoryName')
-#         Categories.objects.create(categoryName=category_name)
-#         return redirect('addCategory') 
-#     categories = Categories.objects.all()
-#     return render(request, 'addCategory.html', {'categories': categories})
+def addCategory(request):
+    if request.method == 'POST':
+        category_name = request.POST.get('categoryName')
+        Categories.objects.create(categoryName=category_name)
+        return redirect('addCategory') 
+    categories = Categories.objects.all()
+    return render(request, 'addCategory.html', {'categories': categories})
 
 
-# def deleteCategory(request):
-#     if request.method == 'POST':
-#         category_id = request.POST.get('categoryToDelete')
-#         category = Categories.objects.get(pk=category_id)
-#         category.delete()
-#     return redirect('addCategory')
+def deleteCategory(request):
+    if request.method == 'POST':
+        category_id = request.POST.get('categoryToDelete')
+        category = Categories.objects.get(pk=category_id)
+        category.delete()
+    return redirect('addCategory')
 
 
 # def addProject(request):

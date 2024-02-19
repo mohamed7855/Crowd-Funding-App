@@ -18,6 +18,7 @@
         placeholder="Project Detail"
       />
 
+      {% comment %}
       <div>
         <select name="category" id="category">
           <option value="" disabled selected hidden>Project Category</option>
@@ -26,7 +27,15 @@
           <option value="c++">c++</option>
         </select>
       </div>
-
+      {% endcomment %}
+      <div>
+        <select name="category" id="category">
+          <option value="" disabled selected hidden>Project Category</option>
+          {% for category in categories %}
+          <option value="{{ category.id }}">{{ category.categoryName }}</option>
+          {% endfor %}
+        </select>
+      </div>
       <div class="row gy-3">
         <div class="col-md-6">
           <input

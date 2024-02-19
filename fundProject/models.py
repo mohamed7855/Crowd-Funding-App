@@ -1,8 +1,6 @@
 from django.db import models
-
-
-
 from user.models import User
+
 class Categories(models.Model):
     categoryName = models.CharField(max_length=20)
 
@@ -32,9 +30,12 @@ class Project(models.Model):
      
      @classmethod
      def projectAdd(self,request):
+        category_id = request.POST.get('category', None)
+        category = Categories.objects.get(id=category_id) if category_id else None
         return self.objects.create(title=request.POST['title'],
                                    details=request.POST['projectDetail'],
                                    totalTarget=request.POST['target'],
+                                   category=category,
                                 #    image=request.FILES['pImage'],
                                 #    count=request.POST['pCount'],
                                 #    category=Category.objects.get(id=request.POST['pCategory'])
@@ -42,10 +43,13 @@ class Project(models.Model):
      
      @classmethod
      def projectUpdate(self,request,id):
+        category_id = request.POST.get('category', None)
+        category = Categories.objects.get(id=category_id) if category_id else None
         return self.objects.filter(id=id).update(
                                 title=request.POST['title'],
                                 details=request.POST['projectDetail'],
                                 totalTarget=request.POST['target'],
+                                category=category
                                 # image=request.POST['pImage'],
                                 # count=request.POST['pCount'],
                                 # category=Category.objects.get(id=request.POST['pCategory'])

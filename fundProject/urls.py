@@ -8,11 +8,12 @@ urlpatterns = [
     path('New',views.addProject,name="projectAdd"),
     path('Delete/<int:id>',views.projectDelete,name="project.delete"),
     path('Update/<int:id>',views.projectUpdate,name="project.update"),
-
-
-
-    # path('addCategory/', addCategory, name='addCategory'),
-    # path('delete-category/', deleteCategory, name='deleteCategory'),
+    path('addCategory/', views.addCategory, name='addCategory'),
+    path('delete-category/', views.deleteCategory, name='deleteCategory'),
+    
+    
+    
+    
     # path('', mainPage, name='mainPage'),
     # path('addProject/', addProject, name='addProject'),
     # path('detailProject/',detailProject, name='detailProject'),
