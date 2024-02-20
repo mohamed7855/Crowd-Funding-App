@@ -29,7 +29,7 @@ def ProjectListByCategory(request, category_id):
 
 
 
-@login_required()
+@login_required(login_url='/user/login')
 def addProject(request):
     categories = Categories.objects.all()
     if request.method == 'POST':
@@ -79,6 +79,7 @@ def formatDate(input_date):
 
 
 
+@login_required(login_url='/user/login')
 @transaction.atomic
 def projectUpdate(request, id):
     project = Project.projectDetails(id)
@@ -111,7 +112,7 @@ def projectUpdate(request, id):
     context = {'project': project, 'categories': categories, 'existing_tags': existing_tags_str}
     return render(request, 'fundProject/updateProject.html', context)
 
-
+@login_required(login_url='/user/login')
 def projectDelete(request, id):
     project = Project.objects.get(id=id)
     total_donations = Donation.objects.filter(project_id=project).aggregate(total_donations=Sum('donation_value'))['total_donations']
@@ -143,6 +144,7 @@ def projectDetails(request, projectid):
     context['similar_projects'] = similar_projects
     return render(request, 'fundProject/detailProject.html', context)
 
+@login_required(login_url='/user/login')
 def comment(request, id):
     obj = Project.projectDetails(id)
     if request.method == 'POST':
@@ -153,6 +155,7 @@ def comment(request, id):
     context = {'project': obj, 'comments': comments}
     return render(request, 'fundProject/comment.html', context)
 
+@login_required(login_url='/user/login')
 def CommentDelete(request, id, comment_id):
     obj = Project.projectDetails(id)
     comments = Comment.objects.filter(project_id=obj)
@@ -162,7 +165,7 @@ def CommentDelete(request, id, comment_id):
         return redirect('comment', id=id)  
     return redirect('comment', id=id)  
 
-
+@login_required(login_url='/user/login')
 def add_rate(request, project_id):
     if request.method == 'GET':
         rate = request.GET.get('rate')
@@ -178,6 +181,7 @@ def add_rate(request, project_id):
             messages.error(request, 'Rate must be Postive Number')
     return redirect('projectDetails', projectid=project_id)
 
+@login_required(login_url='/user/login')
 def add_donate(request, project_id):
     if request.method == 'GET':
         donation_value = request.GET.get('donation_value')
@@ -193,6 +197,7 @@ def add_donate(request, project_id):
             messages.error(request, 'Invalid donation value.')
     return redirect('projectDetails', projectid=project_id)
 
+@login_required(login_url='/user/login')
 def addCategory(request):
     if request.method == 'POST':
         category_name = request.POST.get('categoryName')
@@ -207,11 +212,12 @@ def addCategory(request):
     categories = Categories.objects.all()
     return render(request, 'category/addCategory.html', {'categories': categories})
 
-
+@login_required(login_url='/user/login')
 def allCategory(request):
     categories = Categories.objects.all()
     return render(request, 'category/allCategory.html', {'categories': categories})
 
+@login_required(login_url='/user/login')
 def deleteCategory(request):
     if request.method == 'POST':
         category_id = request.POST.get('categoryToDelete')
