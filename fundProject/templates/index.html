@@ -60,15 +60,15 @@
             </button>
           </form>
         </div>
-        {%if user.id%}
-        <h4>Welcome {{user}}</h4>
+        
+        <h4>Welcome </h4>
         <form action="{%url 'logout'%}" method="post">
           {%csrf_token%}
           <button type="submit" class="btn btn-primary my-3">Log out</button>
         </form>
-        {%else%}
+       
         <a href="{%url 'login'%}">login</a>
-        {%endif%}
+   
       </nav>
     </div>
 
