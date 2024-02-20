@@ -136,6 +136,7 @@ class Donation(models.Model):
 class Rate(models.Model):
     project_id = models.ForeignKey(Project, on_delete=models.CASCADE)
     rate = models.IntegerField()
+    # user_id = models.ForeignKey(User, on_delete=models.CASCADE)
 
 
 class Comment(models.Model):

@@ -56,7 +56,8 @@ def addProject(request):
     return render(request, 'fundProject/addProject.html', {'categories': categories})
 
 def projectList(request):
-    projects = Project.objects.all()
+    
+    projects = Project.objects.all().order_by('-startTime')[:5]
     categories = Categories.objects.all()
     for project in projects:
         setattr(project, 'img', Images.objects.filter(project_id=project))
@@ -65,6 +66,12 @@ def projectList(request):
     context = {'projects': projects, "categories": categories}
     context['imgs'] = Images.imageList()
     return render(request, 'fundProject/home.html', context)
+
+# projects = Project.objects.all()[:5]
+    # # Fetch only the first 5 projects
+
+
+
 
 def formatDate(input_date):
     formatted_date = input_date.strftime('%Y-%m-%d')
@@ -101,9 +108,7 @@ def projectUpdate(request, id):
         existing_tags = [tag.tag_name for tag in project_tags]
     
     existing_tags_str = ",".join(existing_tags)
-
     context = {'project': project, 'categories': categories, 'existing_tags': existing_tags_str}
-
     return render(request, 'fundProject/updateProject.html', context)
 
 
@@ -122,20 +127,6 @@ def projectDelete(request, id):
 
 
 
-# def projectDetails(request, projectid):
-#     obj = Project.projectDetails(projectid)
-#     setattr(obj, 'img', Images.objects.filter(project_id=obj))
-#     last_rate = Rate.objects.filter(project_id=obj).order_by('-id').first()
-#     sum_donate = Donation.objects.filter(project_id=obj).aggregate(Sum('donation_value'))['donation_value__sum']
-#     comments = Comment.objects.filter(project_id=obj)  
-#     project_tags = Tags.objects.filter(project_id=obj)
-#     similar_projects = Project.objects.filter(tags__tag_name__in=project_tags.values('tag_name')).exclude(id=obj.id).distinct()[:4]
-#     for project in similar_projects:
-#         setattr(project, 'img', Images.objects.filter(project_id=project))
-#     context = {'project': obj, 'last_rate': last_rate, 'sum_donate': sum_donate, 'comments': comments}
-#     context['similar_projects'] = similar_projects
-#     return render(request, 'fundProject/detailProject.html', context)
-
 
 def projectDetails(request, projectid):
     obj = Project.projectDetails(projectid)
@@ -151,8 +142,6 @@ def projectDetails(request, projectid):
     context = {'project': obj, 'last_rate': last_rate, 'sum_donate': sum_donate, 'comments': comments,"project_tags":project_tags}
     context['similar_projects'] = similar_projects
     return render(request, 'fundProject/detailProject.html', context)
-
-
 
 def comment(request, id):
     obj = Project.projectDetails(id)
@@ -236,9 +225,12 @@ def search_projects(request):
     projects_by_title = Project.objects.filter(title__exact=query)
     projects_by_tag = Project.objects.filter(tags__tag_name__exact=query)
     projects = (projects_by_title | projects_by_tag).distinct()
+    categories = Categories.objects.all()
     for project in projects:
         setattr(project, 'img', Images.objects.filter(project_id=project))
-    context = {'projects': projects, 'query': query}
+        tags = Tags.objects.filter(project_id=project)
+        project.tags = ", ".join(tag.tag_name for tag in tags)
+    context = {'projects': projects, 'query': query,'categories':categories}
     context['imgs']=Images.imageList()
     return render(request, 'fundProject/home.html', context)
 
