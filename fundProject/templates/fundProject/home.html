@@ -63,7 +63,7 @@
   <!-- Projects Section -->
   <div class="container mt-5">
     <h2 class="text-center">Projects</h2>
-    <div class="row">
+    <div class="row gy-3">
       {%for project in projects%}
       <div class="col-md-4">
         <div class="card">
@@ -104,53 +104,19 @@
 
   <div class="container mt-5">
     <h2 class="text-center">Categories</h2>
-    <div class="row justify-content-center mt-5">
-      <div class="col-md-3 d-flex justify-content-center">
-        <div class="category bg-primary rounded p-3 text-center text-white" style="width: 15rem; height: 5rem">
-          <p class="m-auto" style="font-size: 2rem">Category</p>
+    <div class="row justify-content-center mt-5 gy-4">
+        {% for category in categories %}
+        
+        <div class="col-md-3 d-flex justify-content-center cursor-pointer">
+          <a href="{% url 'project_list_by_category' category.id %}">
+          <div class="category bg-primary rounded p-3 text-center text-white" style="width: 15rem; height: 5rem">
+                <p class="m-auto" style="font-size: 2rem">{{ category.categoryName }}</p>
+            </div>
+          </a>
         </div>
-      </div>
-      <div class="col-md-3 d-flex justify-content-center">
-        <div class="category bg-primary rounded p-3 text-center text-white" style="width: 15rem; height: 5rem">
-          <p class="m-auto" style="font-size: 2rem">Category</p>
-        </div>
-      </div>
-      <div class="col-md-3 d-flex justify-content-center">
-        <div class="category bg-primary rounded p-3 text-center text-white" style="width: 15rem; height: 5rem">
-          <p class="m-auto" style="font-size: 2rem">Category</p>
-        </div>
-      </div>
-      <div class="col-md-3 d-flex justify-content-center">
-        <div class="category bg-primary rounded p-3 text-center text-white" style="width: 15rem; height: 5rem">
-          <p class="m-auto" style="font-size: 2rem">Category</p>
-        </div>
-      </div>
+        {% endfor %}
     </div>
-
-    <div class="row justify-content-center mt-5">
-      <div class="col-md-3 d-flex justify-content-center">
-        <div class="category bg-primary rounded p-3 text-center text-white" style="width: 15rem; height: 5rem">
-          <p class="m-auto" style="font-size: 2rem">Category</p>
-        </div>
-      </div>
-      <div class="col-md-3 d-flex justify-content-center">
-        <div class="category bg-primary rounded p-3 text-center text-white" style="width: 15rem; height: 5rem">
-          <p class="m-auto" style="font-size: 2rem">Category</p>
-        </div>
-      </div>
-      <div class="col-md-3 d-flex justify-content-center">
-        <div class="category bg-primary rounded p-3 text-center text-white" style="width: 15rem; height: 5rem">
-          <p class="m-auto" style="font-size: 2rem">Category</p>
-        </div>
-      </div>
-      <div class="col-md-3 d-flex justify-content-center">
-        <div class="category bg-primary rounded p-3 text-center text-white" style="width: 15rem; height: 5rem">
-          <p class="m-auto" style="font-size: 2rem">Category</p>
-        </div>
-      </div>
-    </div>
-  </div>
-
+</div>
 
 
 

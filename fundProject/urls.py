@@ -18,6 +18,7 @@ urlpatterns = [
     path('comment/<int:id>',views.comment,name="comment"),    
     path('comment/<int:id>/delete/<int:comment_id>/', views.CommentDelete, name='CommentDelete'),
     path('search/', views.search_projects, name='search_projects'),
+    path('category/<int:category_id>/', views.ProjectListByCategory, name='project_list_by_category'),
 
 ]
 

@@ -10,10 +10,22 @@ from django.http import Http404
 from django.db.models import Sum
 from django.db import transaction
 from django.contrib.auth.decorators import login_required
-
+from .models import Project, Categories
 
 def mainPage(request):
     return  render(request,'fundProject/home.html')
+
+
+def ProjectListByCategory(request, category_id):
+    categoryID = Categories.objects.get(id=category_id)
+    projects = Project.objects.filter(category_id=categoryID)
+    for project in projects:
+        setattr(project, 'img', Images.objects.filter(project_id=project))
+
+    context = {'projects': projects, 'categoryID': categoryID}
+    context['imgs']=Images.imageList()
+    return render(request, 'category/projectTheRelatedCategory.html',context )
+
 
 @login_required()
 def addProject(request):
@@ -36,10 +48,11 @@ def addProject(request):
 
 def projectList(request):
     projects = Project.objects.all()
+    categories = Categories.objects.all()
     for project in projects:
         setattr(project, 'img', Images.objects.filter(project_id=project))
 
-    context = {'projects': projects}
+    context = {'projects': projects, "categories": categories}
     context['imgs']=Images.imageList()
     return  render(request,'fundProject/home.html',context)
 
@@ -188,9 +201,9 @@ def deleteCategory(request):
 
 
 def search_projects(request):
-    query = request.GET.get('query')
-    projects_by_title = Project.objects.filter(title__icontains=query)
-    projects_by_tag = Project.objects.filter(tags__tag_name__icontains=query)
+    query = request.GET.get('search')
+    projects_by_title = Project.objects.filter(title__exact=query)
+    projects_by_tag = Project.objects.filter(tags__tag_name__exact=query)
     projects = (projects_by_title | projects_by_tag).distinct()
     for project in projects:
         setattr(project, 'img', Images.objects.filter(project_id=project))

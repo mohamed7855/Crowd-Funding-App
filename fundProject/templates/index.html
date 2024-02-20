@@ -50,15 +50,9 @@
           <a href="{%url 'projectAdd'%}" class="me-3">
             <button type="button" class="btn btn-primary" style="height: 2.5rem;">Create Project</button>
           </a>
-           {% comment %} <form class="d-flex">
-            <input class="form-control " type="search" placeholder="Search" aria-label="Search" />
-            <button class="btn btn-outline-success" type="submit">
-            <i class="fas fa-search"></i>
-          </button>
-          </form>  {% endcomment %}
-          
+     
           <form class="d-flex" method="GET" action="{% url 'search_projects' %}">
-            <input class="form-control" type="search" placeholder="Search" aria-label="Search" name="query">
+            <input class="form-control" type="search" placeholder="Search" aria-label="Search" name="search">
             <button class="btn btn-outline-success" type="submit">
               <i class="fas fa-search"></i>
             </button>
