@@ -1,0 +1,70 @@
+{%extends 'index.html'%} {%load static %} {%block content%} {% block style %} {%
+block style %}
+<link rel="stylesheet" href="{% static 'css/addUser.css' %}" />
+{% endblock %}
+
+<div
+  id="add"
+  class="d-flex justify-content-center align-items-center bg-denger parent"
+>
+  <div class="container parent mx-auto">
+    <form method="post" enctype="multipart/form-data">
+      {%csrf_token%}
+      <h1>Create User</h1>
+
+      <div class="row gy-3">
+        <div class="col-md-6">
+          <input
+            type="text"
+            name="uFirstName"
+            required
+            placeholder="First Name"
+          />
+        </div>
+
+        <div class="col-md-6">
+          <div>
+            <input
+              type="text"
+              name="uLastName"
+              required
+              placeholder="Last Name"
+            />
+          </div>
+        </div>
+      </div>
+      <input type="email" name="uEmail" required placeholder="Email" />
+      <input type="text" name="uMobilPhone" required placeholder="Phone" />
+      <div class="row gy-3">
+        <div class="col-md-6">
+          <div>
+            <input
+              type="password"
+              name="uPassword"
+              required
+              placeholder="Password"
+            />
+          </div>
+        </div>
+        <div class="col-md-6">
+          <div>
+            <input
+              type="password"
+              name="uConfirmPass"
+              required
+              placeholder="RePassword"
+            />
+          </div>
+        </div>
+      </div>
+      
+      <input type="file" name="uImage" required placeholder="Choose Image" />
+
+      <div class="d-flex justify-content-center align-items-center">
+        <button type="submit">Create User</button>
+      </div>
+    </form>
+  </div>
+</div>
+
+{%endblock%}

@@ -1,0 +1,126 @@
+{%extends 'index.html'%} {%load static %} {%block content%} {% block style %}
+<link rel="stylesheet" href="{% static 'css/allUser.css' %}" />
+{% endblock %}
+<h1>All User</h1>
+
+{%for user in users%}
+<div class="container my-5">
+  <div class="row gy-5">
+    <div class="col-lg-4 col-md-6">
+      <div class="user">
+        <div class="image-user">
+          <img  src="{{user.getImgURL}}" alt="user" />
+        </div>
+        <div class="info">
+          <h3>{{user.firstName}} {{user.lastName}}</h3>
+          <div>
+            <!-- <button style="margin-bottom: 15px" >Update</button> -->
+            <a href="{% url 'updateUser' user.id %}" style="margin-bottom: 15px" class="btn btn-primary">Update</a>
+            <a href="{% url 'deleteUser' user.id %}" style="margin-bottom: 15px" class="btn btn-danger">Delete</a>
+            <a href="{% url 'userdetails' user.id %}" style="margin-bottom: 15px" class="btn btn-success"> Details</a>
+          </div>
+        </div>
+      </div>
+    </div>
+    <!-- <div class="col-lg-4 col-md-6">
+      <div class="user">
+        <div class="image-user">
+          <img src="{% static 'images/user.jpg'%}" alt="user" />
+        </div>
+        <div class="info">
+          <h3>Merna Bassem</h3>
+          <div>
+            <button>Update</button>
+            <button style="margin-bottom: 15px">Delete</button>
+          </div>
+        </div>
+      </div>
+    </div>
+    <div class="col-lg-4 col-md-6">
+      <div class="user">
+        <div class="image-user">
+          <img src="{% static 'images/user.jpg'%}" alt="user" />
+        </div>
+        <div class="info">
+          <h3>Merna Bassem</h3>
+          <div>
+            <button>Update</button>
+            <button style="margin-bottom: 15px">Delete</button>
+          </div>
+        </div>
+      </div>
+    </div>
+    <div class="col-lg-4 col-md-6">
+      <div class="user">
+        <div class="image-user">
+          <img src="{% static 'images/user.jpg'%}" alt="user" />
+        </div>
+        <div class="info">
+          <h3>Merna Bassem</h3>
+          <div>
+            <button>Update</button>
+            <button style="margin-bottom: 15px">Delete</button>
+          </div>
+        </div>
+      </div>
+    </div>
+    <div class="col-lg-4 col-md-6">
+      <div class="user">
+        <div class="image-user">
+          <img src="{% static 'images/user.jpg'%}" alt="user" />
+        </div>
+        <div class="info">
+          <h3>Merna Bassem</h3>
+          <div>
+            <button>Update</button>
+            <button style="margin-bottom: 15px">Delete</button>
+          </div>
+        </div>
+      </div>
+    </div>
+    <div class="col-lg-4 col-md-6">
+      <div class="user">
+        <div class="image-user">
+          <img src="{% static 'images/user.jpg'%}" alt="user" />
+        </div>
+        <div class="info">
+          <h3>Merna Bassem</h3>
+          <div>
+            <button>Update</button>
+            <button style="margin-bottom: 15px">Delete</button>
+          </div>
+        </div>
+      </div>
+    </div>
+    <div class="col-lg-4 col-md-6">
+      <div class="user">
+        <div class="image-user">
+          <img src="{% static 'images/user.jpg'%}" alt="user" />
+        </div>
+        <div class="info">
+          <h3>Merna Bassem</h3>
+          <div>
+            <button>Update</button>
+            <button style="margin-bottom: 15px">Delete</button>
+          </div>
+        </div>
+      </div>
+    </div>
+    <div class="col-lg-4 col-md-6">
+      <div class="user">
+        <div class="image-user">
+          <img src="{% static 'images/user.jpg'%}" alt="user" />
+        </div>
+        <div class="info">
+          <h3>Merna Bassem</h3>
+          <div>
+            <button>Update</button>
+            <button style="margin-bottom: 15px">Delete</button>
+          </div>
+        </div>
+      </div>
+    </div>-->
+  </div> 
+</div>
+{%endfor%}
+{%endblock%}
