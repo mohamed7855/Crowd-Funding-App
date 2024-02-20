@@ -248,20 +248,23 @@
                 alt="Project Image"
               />
             </div>
-            <div class="card-body">
+            <div class="card-body text-start">
               <p class="card-text">
                 <span style="font-size: 2rem; font-weight: 600">Title :</span>
-                {{ project.title }}
+                <span style="font-size: 1.5rem; font-weight: 600">{{ project.title }}</span>
+                
               </p>
               <p class="card-text">
                 <span style="font-size: 2rem; font-weight: 600">Tags :</span>
-                {% for tag in project.tags.all %} {{ tag.tag_name }} {% if not forloop.last %}, {% endif %} {% endfor %}
+                {% for tag in project.tags.all %} <span style="font-size: 1.5rem; font-weight: 600">{{ tag.tag_name }}</span>  {% if not forloop.last %}
+                <span style="font-size: 1.5rem; font-weight: 600">,</span>  
+                 {% endif %} {% endfor %}
               </p>
               <div class="d-flex justify-content-center align-items-center">
-                <a href="{% url 'projectDetails' project.id %}">
+                <a href="{% url 'projectDetails' project.id %}" class="w-100">
                   <button
                     type="button"
-                    class="btn btn-primary my-3 text-white fs-3 py-2 px-3"
+                    class="btn btn-primary my-3 text-white w-100 fs-3 py-2 px-3"
                   >
                     Details
                   </button>
