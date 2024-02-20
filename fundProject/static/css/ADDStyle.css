@@ -16,7 +16,7 @@
   font-size: 40px;
   font-weight: bold;
   padding-bottom: 5px;
-  color: hsl(0, 84%, 44%);
+  color:blue;
 }
 .sytle_form input ,select
 {
@@ -29,7 +29,7 @@
 
 
 .sytle_form input:focus {
-  border: 2px solid hsl(0, 84%, 44%);
+  border: 2px solid var(--bs-primary);
   outline: none;
 }
 
@@ -39,12 +39,10 @@
   color: #fff;
   border-radius: 30px;
   border: none;
-  background-color: hsl(0, 84%, 44%);
+  background-color: blue;
 }
 
-.sytle_form button:hover {
-  background-color: red;
-}
+
 
 .sytle_form label span{
   font-size: 20px;
