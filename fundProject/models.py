@@ -105,8 +105,6 @@ class Tags(models.Model):
     @classmethod
     def delete_tags_for_project(cls, project):
         cls.objects.filter(project_id=project).delete()
-        
-    
 class Images (models.Model):
     project_id = models.ForeignKey(Project, on_delete=models.CASCADE)
     img = models.ImageField(blank=False, null=False, upload_to='fundProject/images')

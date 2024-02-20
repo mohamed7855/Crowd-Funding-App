@@ -11,6 +11,7 @@ from django.db.models import Sum
 from django.db import transaction
 from django.contrib.auth.decorators import login_required
 from .models import Project, Categories
+from django.db.models import Q
 
 def mainPage(request):
     return  render(request,'fundProject/home.html')
@@ -51,7 +52,6 @@ def projectList(request):
     categories = Categories.objects.all()
     for project in projects:
         setattr(project, 'img', Images.objects.filter(project_id=project))
-
     context = {'projects': projects, "categories": categories}
     context['imgs']=Images.imageList()
     return  render(request,'fundProject/home.html',context)
@@ -102,7 +102,6 @@ def projectUpdate(request, id):
 
 def projectDelete(request, id):
     project = Project.objects.get(id=id)
-    
     total_donations = Donation.objects.filter(project_id=project).aggregate(total_donations=Sum('donation_value'))['total_donations']
     total_target_float = float(project.totalTarget)
     if total_donations is not None and total_donations > total_target_float * 0.25:
@@ -114,14 +113,34 @@ def projectDelete(request, id):
     return HttpResponseRedirect(reverse('project.all'))
 
 
+# def projectDetails(request, projectid):
+#     obj = Project.projectDetails(projectid)
+#     setattr(obj, 'img', Images.objects.filter(project_id=obj))
+#     last_rate = Rate.objects.filter(project_id=obj).order_by('-id').first()
+#     sum_donate = Donation.objects.filter(project_id=obj).aggregate(Sum('donation_value'))['donation_value__sum']
+#     comments = Comment.objects.filter(project_id=obj)  
+#     context = {'project': obj, 'last_rate': last_rate, 'sum_donate': sum_donate, 'comments': comments}
+#     return render(request, 'fundProject/detailProject.html', context)
+
+
 def projectDetails(request, projectid):
     obj = Project.projectDetails(projectid)
     setattr(obj, 'img', Images.objects.filter(project_id=obj))
     last_rate = Rate.objects.filter(project_id=obj).order_by('-id').first()
     sum_donate = Donation.objects.filter(project_id=obj).aggregate(Sum('donation_value'))['donation_value__sum']
     comments = Comment.objects.filter(project_id=obj)  
+    project_tags = Tags.objects.filter(project_id=obj)
+    similar_projects = Project.objects.filter(tags__tag_name__in=project_tags.values('tag_name')).exclude(id=obj.id).distinct()[:4]
+    for project in similar_projects:
+        setattr(project, 'img', Images.objects.filter(project_id=project))
     context = {'project': obj, 'last_rate': last_rate, 'sum_donate': sum_donate, 'comments': comments}
+    context['similar_projects'] = similar_projects
     return render(request, 'fundProject/detailProject.html', context)
+
+
+
+
+
 
 def comment(request, id):
     obj = Project.projectDetails(id)

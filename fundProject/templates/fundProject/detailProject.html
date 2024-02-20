@@ -99,6 +99,42 @@
         </a>
       </div>
     </div>
+
+
+    <!--product related tag-->
+
+    <div class="container mt-5">
+      <h2 class="text-center mb-5 text-info">Projects with Similar Tags</h2>
+      <div class="row gy-3">
+          {% for project in similar_projects %}
+          <div class="col-md-4">
+              <div class="card">
+                  <div style="height: 300px;">
+                      <img style="width: 100%; height: 100%;" src="{{ project.img.0.getImgURL }}" class="card-img-top" alt="Project Image" />
+                  </div>
+                  <div class="card-body">
+                      <p class="card-text">
+                          <span style="font-size:2rem; font-weight:600">Title :</span> {{ project.title }}
+                      </p>
+                      <p class="card-text">
+                          <span style="font-size:2rem; font-weight:600">Tags :</span>
+                          {% for tag in project.tags.all %}
+                              {{ tag.tag_name }}
+                              {% if not forloop.last %}, {% endif %}
+                          {% endfor %}
+                      </p>
+                      <a href="{% url 'projectDetails' project.id %}">
+                          <button type="button" class="btn btn-info my-3">Details</button>
+                      </a>
+                  </div>
+              </div>
+          </div>
+          {% endfor %}
+      </div>
+  </div>
+
+
+
   </div>
 </div>
 
