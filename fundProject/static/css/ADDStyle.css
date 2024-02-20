@@ -1,50 +1,50 @@
-#add {
-  min-height: 100vh;
+
+#add{
+  min-height:100vh ;
+ 
 }
 
-.style_form {
+.sytle_form {
   margin-block: 35px;
   background-color: #fff;
   padding: 20px;
   filter: drop-shadow(rgba(0, 0, 0, 0.45) 1px 1px 1px);
 }
 
-.style_form h1 {
+.sytle_form h1{
   text-align: center;
   font-size: 40px;
   font-weight: bold;
   padding-bottom: 5px;
-  color: hsl(0, 84%, 44%);
+  color:blue;
 }
-.style_form input {
+.sytle_form input ,select
+{
   padding: 17px 15px;
   margin-block: 20px;
   width: 100% !important;
   border: 2px solid black;
 }
 
-.style_form input:focus {
-  border: 2px solid hsl(0, 84%, 44%);
+
+
+.sytle_form input:focus {
+  border: 2px solid var(--bs-primary);
   outline: none;
 }
 
-.style_form button {
+.sytle_form button {
   padding: 18px 38px;
   font-size: 18px;
   color: #fff;
   border-radius: 30px;
   border: none;
-  background-color: hsl(0, 84%, 44%);
+  background-color: blue;
 }
 
-.style_form button:hover {
-  background-color: red;
-}
 
-.style_form label span {
+
+.sytle_form label span{
   font-size: 20px;
   font-weight: bold;
 }
-
-
-

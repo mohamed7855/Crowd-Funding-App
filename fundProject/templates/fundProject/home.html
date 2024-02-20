@@ -71,7 +71,7 @@
   <!-- Projects Section -->
   <div class="container mt-5">
     <h2 class="text-center">Projects</h2>
-    <div class="row">
+    <div class="row gy-3">
       {%for project in projects%}
       <div class="col-md-4">
         <div class="card">
@@ -97,10 +97,12 @@
               <button type="button" class="btn btn-secondary my-3">Update</button>
             </a>
             <a href="{% url 'project.delete' project.id%}">
-              <button type="button" class="btn btn-danger my-3">Delete</button>
+              <button type="button" id="Delete" class="btn btn-danger my-3 delete-btn">Delete</button>
             </a>
+  
 
             <p>End Date: {{project.endTime}}</p>
+            <p>Tags: {{ project.tags }}</p> 
           </div>
         </div>
       </div>
@@ -108,61 +110,51 @@
       {%endfor%}
     </div>
   </div>
-
+<!-- category Section -->
   <div class="container mt-5">
     <h2 class="text-center">Categories</h2>
-    <div class="row justify-content-center mt-5">
-      <div class="col-md-3 d-flex justify-content-center">
-        <div class="category bg-primary rounded p-3 text-center text-white" style="width: 15rem; height: 5rem">
-          <p class="m-auto" style="font-size: 2rem">Category</p>
+    <div class="row justify-content-center mt-5 gy-4">
+        {% for category in categories %}
+        
+        <div class="col-md-3 d-flex justify-content-center cursor-pointer">
+          <a href="{% url 'project_list_by_category' category.id %}">
+          <div class="category bg-primary rounded p-3 text-center text-white" style="width: 15rem; height: 5rem">
+                <p class="m-auto" style="font-size: 2rem">{{ category.categoryName }}</p>
+            </div>
+          </a>
         </div>
-      </div>
-      <div class="col-md-3 d-flex justify-content-center">
-        <div class="category bg-primary rounded p-3 text-center text-white" style="width: 15rem; height: 5rem">
-          <p class="m-auto" style="font-size: 2rem">Category</p>
-        </div>
-      </div>
-      <div class="col-md-3 d-flex justify-content-center">
-        <div class="category bg-primary rounded p-3 text-center text-white" style="width: 15rem; height: 5rem">
-          <p class="m-auto" style="font-size: 2rem">Category</p>
-        </div>
-      </div>
-      <div class="col-md-3 d-flex justify-content-center">
-        <div class="category bg-primary rounded p-3 text-center text-white" style="width: 15rem; height: 5rem">
-          <p class="m-auto" style="font-size: 2rem">Category</p>
-        </div>
-      </div>
+        {% endfor %}
     </div>
-
-    <div class="row justify-content-center mt-5">
-      <div class="col-md-3 d-flex justify-content-center">
-        <div class="category bg-primary rounded p-3 text-center text-white" style="width: 15rem; height: 5rem">
-          <p class="m-auto" style="font-size: 2rem">Category</p>
-        </div>
-      </div>
-      <div class="col-md-3 d-flex justify-content-center">
-        <div class="category bg-primary rounded p-3 text-center text-white" style="width: 15rem; height: 5rem">
-          <p class="m-auto" style="font-size: 2rem">Category</p>
-        </div>
-      </div>
-      <div class="col-md-3 d-flex justify-content-center">
-        <div class="category bg-primary rounded p-3 text-center text-white" style="width: 15rem; height: 5rem">
-          <p class="m-auto" style="font-size: 2rem">Category</p>
-        </div>
-      </div>
-      <div class="col-md-3 d-flex justify-content-center">
-        <div class="category bg-primary rounded p-3 text-center text-white" style="width: 15rem; height: 5rem">
-          <p class="m-auto" style="font-size: 2rem">Category</p>
-        </div>
-      </div>
-    </div>
-  </div>
-
+</div>
 
 
 
 <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.1.3/dist/js/bootstrap.bundle.min.js"></script>
 <script src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.10.2/dist/umd/popper.min.js"></script>
+
+
+<script>
+  document.querySelectorAll('.delete-btn').forEach(btn => {
+    btn.addEventListener('click', function(e) {
+      if (!confirm('Are you sure you want to delete this project?')) {
+        e.preventDefault(); 
+      } else {
+        {% if messages %}
+          {% if messages|length > 1 %}
+            var messagesList = [];
+            {% for message in messages %}
+              messagesList.push("{{ message }}");
+            {% endfor %}
+            var secondToLastMessage = messagesList[messagesList.length - 2];
+            alert(secondToLastMessage);
+          {% endif %}
+        {% endif %}
+      }
+    });
+  }); 
+</script>
+
+
 
 
 

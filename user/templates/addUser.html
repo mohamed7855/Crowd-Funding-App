@@ -1,6 +1,14 @@
+
 {% extends 'index.html' %} {% load static %} {% block style %}
 <link rel="stylesheet" href="{% static 'css/StyleAddUser.css' %}" />
 {% endblock %} {% block content %}
+
+{%extends 'index.html'%} {%load static %} 
+{%block style %}
+<link rel="stylesheet" href="{% static 'css/UserAdd.css' %}" />
+{% endblock %}
+{%block content%} 
+
 <div
   id="add"
   class="d-flex justify-content-center align-items-center bg-dark parent"
