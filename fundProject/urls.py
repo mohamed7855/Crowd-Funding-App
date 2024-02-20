@@ -16,8 +16,9 @@ urlpatterns = [
     path('add_rate/<int:project_id>/', views.add_rate, name='add_rate'),
     path('add_donate/<int:project_id>/', views.add_donate, name='add_donate'),
     path('comment/<int:id>',views.comment,name="comment"),    
-    path('comment/<int:id>/delete/<int:comment_id>/', views.CommentDelete, name='CommentDelete')
-    
+    path('comment/<int:id>/delete/<int:comment_id>/', views.CommentDelete, name='CommentDelete'),
+    path('search/', views.search_projects, name='search_projects'),
+
 ]
 
 # path('', mainPage, name='mainPage'),

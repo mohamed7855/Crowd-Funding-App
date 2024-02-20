@@ -8,7 +8,7 @@ from .models import Rate
 from django.contrib import messages
 from django.http import Http404
 from django.db.models import Sum
-
+from django.db import transaction
 from django.contrib.auth.decorators import login_required
 
 
@@ -20,6 +20,11 @@ def addProject(request):
     categories = Categories.objects.all()
     if request.method == 'POST':
         project=Project.projectAdd(request)
+        tags = request.POST.get('tag', '').split(',')  
+        for tag_name in tags:
+            tag = Tags(project_id=project, tag_name=tag_name.strip())
+            tag.save()
+        
         print('Project added', project.id)
         images = request.FILES.getlist('projectimage[]')
         if images:
@@ -43,31 +48,56 @@ def formatDate(input_date):
     formatted_date = input_date.strftime('%Y-%m-%d')
     return formatted_date
 
+
+@transaction.atomic
 def projectUpdate(request, id):
     project = Project.projectDetails(id)
     project.startTime = formatDate(project.startTime)
     project.endTime = formatDate(project.endTime)
     categories = Categories.objects.all()
-    context = {'project': project, 'categories': categories}
+    existing_tags = []
+
     if request.method == 'POST':
         if request.POST.get('title', '') != '':
             Project.projectUpdate(request, id)
+
+            new_tags = request.POST.get('tag', '').split(',')
+            project_tags = Tags.objects.filter(project_id=project)
+            existing_tags = [tag.tag_name for tag in project_tags]
+
+            for tag in project_tags:
+                if tag.tag_name not in new_tags:
+                    tag.delete()
+
+            for tag_name in new_tags:
+                if tag_name.strip() not in existing_tags:
+                    Tags.objects.create(project_id=project, tag_name=tag_name.strip())
+
             return HttpResponseRedirect(reverse('project.all'))
         else:
             context['msg'] = 'Kindly fill all fields'
-    return render(request, 'fundProject/updateProject.html', context)
+    else:
+        project_tags = Tags.objects.filter(project_id=project)
+        existing_tags = [tag.tag_name for tag in project_tags]
+    
+    existing_tags_str = ",".join(existing_tags)
 
+    context = {'project': project, 'categories': categories, 'existing_tags': existing_tags_str}
+
+    return render(request, 'fundProject/updateProject.html', context)
 
 
 def projectDelete(request, id):
     project = Project.objects.get(id=id)
+    
     total_donations = Donation.objects.filter(project_id=project).aggregate(total_donations=Sum('donation_value'))['total_donations']
     total_target_float = float(project.totalTarget)
     if total_donations is not None and total_donations > total_target_float * 0.25:
         messages.error(request, 'Cannot delete project: total donations exceed 25% of the total target.')
     else:
         Project.projectDelete(id)
-        messages.error(request, 'Succuess Delete Project')
+        Tags.objects.filter(project_id=project).delete()
+        messages.error(request, 'Success Delete Project')
     return HttpResponseRedirect(reverse('project.all'))
 
 
@@ -157,7 +187,16 @@ def deleteCategory(request):
     return redirect('allCategory')
 
 
-
+def search_projects(request):
+    query = request.GET.get('query')
+    projects_by_title = Project.objects.filter(title__icontains=query)
+    projects_by_tag = Project.objects.filter(tags__tag_name__icontains=query)
+    projects = (projects_by_title | projects_by_tag).distinct()
+    for project in projects:
+        setattr(project, 'img', Images.objects.filter(project_id=project))
+    context = {'projects': projects, 'query': query}
+    context['imgs']=Images.imageList()
+    return render(request, 'fundProject/home.html', context)
 
 # def add_all_Comment(request, id):
 #     if request.method == 'POST':
