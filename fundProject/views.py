@@ -56,7 +56,8 @@ def addProject(request):
     return render(request, 'fundProject/addProject.html', {'categories': categories})
 
 def projectList(request):
-    projects = Project.objects.all()[:5]  # Fetch only the first 5 projects
+    
+    projects = Project.objects.all().order_by('-startTime')[:5]
     categories = Categories.objects.all()
     for project in projects:
         setattr(project, 'img', Images.objects.filter(project_id=project))
@@ -66,6 +67,8 @@ def projectList(request):
     context['imgs'] = Images.imageList()
     return render(request, 'fundProject/home.html', context)
 
+# projects = Project.objects.all()[:5]
+    # # Fetch only the first 5 projects
 
 
 
@@ -223,7 +226,6 @@ def search_projects(request):
     projects_by_tag = Project.objects.filter(tags__tag_name__exact=query)
     projects = (projects_by_title | projects_by_tag).distinct()
     categories = Categories.objects.all()
-
     for project in projects:
         setattr(project, 'img', Images.objects.filter(project_id=project))
         tags = Tags.objects.filter(project_id=project)
