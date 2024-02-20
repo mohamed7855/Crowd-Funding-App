@@ -9,6 +9,7 @@ urlpatterns = [
     path('addUser/', addUser, name='addUser'),
     path('updateUser/', updateUser, name='updateUser'),
     path('insertuser/', insertuser, name='insertuser'),
+    path('register/', register, name='register'),
     
 ]
  

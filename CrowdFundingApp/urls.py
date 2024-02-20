@@ -20,6 +20,7 @@ from fundProject import  views as MainPage
 from .settings import *
 from django.conf.urls.static import static
 
+
 urlpatterns = [
     path('admin/', admin.site.urls),
     # path('', MainPage.mainPage),

@@ -1,7 +1,14 @@
 from django.db import models
-
+from django.contrib.auth import authenticate
+from django.contrib.auth.models import User
+from django.utils import timezone
 
 # Create your models here.
+
+
+
+
+
 
 class User(models.Model):    
     firstName=models.TextField()
