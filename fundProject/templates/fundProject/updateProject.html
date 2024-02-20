@@ -3,13 +3,13 @@
 
 {% block style %}
 <link rel="stylesheet" href="{% static 'bootstrap/css/bootstrap.min.css' %}" />
-<link rel="stylesheet" href="{% static 'css/addProject.css' %}" />
+<link rel="stylesheet" href="{% static 'css/ADDStyle.css' %}" />
 {% endblock %}
 
 {% block content %}
 <div id="add" class="d-flex justify-content-center align-items-center bg-denger parent">
   <div class="container parent mx-auto">
-    <form action="{% url 'project.update' project.id %}" method="post">
+    <form action="{% url 'project.update' project.id %}" class="sytle_form" method="post">
       {% csrf_token %}
       <h1>Update Project</h1>
 
@@ -20,14 +20,7 @@
       <input type="text" name="title" required placeholder="Project Title" value="{{ project.title }}" />
       <input type="text" name="projectDetail" required placeholder="Project Detail" value="{{ project.details }}" />
 
-      {% comment %} <div>
-        <select name="category" id="category">
-          <option value="" disabled selected hidden>Project Category</option>
-          {% for category in categories %}
-            <option value="{{ category.id }}" {% if category.id == project.category_id %}selected{% endif %}>{{ category.categoryName }}</option>
-          {% endfor %}
-        </select>
-      </div> {% endcomment %}
+      
       <div>
         <select name="category" id="category">
           <option value="" disabled selected hidden>Project Category</option>
@@ -41,12 +34,10 @@
           <input type="number" name="target" required placeholder="Total Target" value="{{ project.totalTarget }}" />
         </div>
 
+       
         <div class="col-md-6">
-          <div>
-            <input type="text" name="tag" required placeholder="Tags" value="{{ project.tag }}" />
-          </div>
-        </div>
-
+          <input type="text" name="tag" required placeholder="Tags" value="{{ existing_tags }}" />
+      </div>
         <div class="col-md-6">
           <div>
             <label for="sCampaign">
