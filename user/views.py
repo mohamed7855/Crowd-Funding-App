@@ -3,6 +3,10 @@ from django.http import HttpResponse
 from .forms import UserRegisterForm, UserUpdateForm, ProfileUpdateForm
 from django.contrib.auth.decorators import login_required
 from django.contrib import messages
+from django.shortcuts import render , reverse
+from django.http import HttpResponseRedirect
+from .models import Users
+
 
 
 # Create your views here.
@@ -48,16 +52,37 @@ def profile(request):
 
     return render(request, 'users/profile.html', context)
 
+#===========================================================================
 
-def updateUser(request):
-    return render(request,'updateUser.html')
+def updateUser(request, id):
+    if request.method == 'POST':
+        Users.userUpdate(request, id)
+        return HttpResponseRedirect(reverse('allUser'))
+    user = Users.userDetails(id)
+    context = {'user': user}
+    return render(request, 'updateUser.html', context)
 
-def insertuser(request):
-    return render(request,'insertspecificUser.html')
+
+def userdetails(request,id):
+    userdete={"userdete":Users.userDetails(id)}
+    return render(request,'insertspecificUser.html',userdete)
+
+def deleteUser(request,id):
+    Users.userDelete(id)
+    r=reverse('allUser')
+    return HttpResponseRedirect(r)
+    # return redirect(request,'allUser.html')
 
 def addUser(request):
-     return  render(request,'addUser.html')
+    if(request.method=='POST'):
+        Users.userAdd(request)
+        return HttpResponseRedirect(reverse('allUser'))
+    return  render(request,'addUser.html')
+
 
 def allUser(request):
-     return  render(request,'allUser.html')
+    context={'users':Users.userList()} 
+    return  render(request,'allUser.html',context)
+
+#===========================================================================
 

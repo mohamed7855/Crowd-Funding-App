@@ -1,68 +1,72 @@
-{%extends 'index.html'%} {%load static %} 
-{%block style %}
-<link rel="stylesheet" href="{% static 'css/UserAdd.css' %}" />
-{% endblock %}
-{%block content%} 
-<div
-  id="add"
-  class="d-flex justify-content-center align-items-center bg-denger parent"
->
-  <div class="container parent mx-auto">
-    <form method="post" class="style_form" enctype="multipart/form-data">
-      <h1>Create User</h1>
-
-      <div class="row gy-3">
-        <div class="col-md-6">
-          <input
-            type="text"
-            name="firstName"
-            required
-            placeholder="First Name"
-          />
-        </div>
-
-        <div class="col-md-6">
-          <div>
+{%extends 'index.html'%} {%load static %} {%block content%} {% block style %} {%
+  block style %}
+  <link rel="stylesheet" href="{% static 'css/addUser.css' %}" />
+  {% endblock %}
+  
+  <div
+    id="add"
+    class="d-flex justify-content-center align-items-center bg-denger parent"
+  >
+    <div class="container parent mx-auto">
+      <form method="post" enctype="multipart/form-data"
+        oninput='uConfirmPass.setCustomValidity(uConfirmPass.value != uPassword.value ? "Passwords do not match." : "")'>
+        {%csrf_token%}
+        <h1>Create User</h1>
+  
+        <div class="row gy-3">
+          <div class="col-md-6">
             <input
               type="text"
-              name="lastName"
+              name="uFirstName"
               required
-              placeholder="Last Name"
+              placeholder="First Name"
             />
           </div>
-        </div>
-      </div>
-      <input type="email" name="email" required placeholder="Email" />
-      <input type="text" name="mobilPhone" required placeholder="Phone" />
-      <div class="row gy-3">
-        <div class="col-md-6">
-          <div>
-            <input
-              type="password"
-              name="password"
-              required
-              placeholder="Password"
-            />
+  
+          <div class="col-md-6">
+            <div>
+              <input
+                type="text"
+                name="uLastName"
+                required
+                placeholder="Last Name"
+              />
+            </div>
           </div>
         </div>
-        <div class="col-md-6">
-          <div>
-            <input
-              type="password"
-              name="confirmPass"
-              required
-              placeholder="RePassword"
-            />
+        <input type="email" name="uEmail" required placeholder="Email" />
+        <input type="text" name="uMobilPhone" required placeholder="Phone" />
+        <div class="row gy-3">
+          <div class="col-md-6">
+            <div>
+              <input
+                type="password"
+                name="uPassword"
+                required
+                placeholder="Password"
+              />
+            </div>
+          </div>
+          <div class="col-md-6">
+            <div>
+              <input
+                type="password"
+                name="uConfirmPass"
+                required
+                placeholder="RePassword"
+              />
+            </div>
           </div>
         </div>
-      </div>
-      <input type="file" name="photo" required placeholder="Choose Image" />
-
-      <div class="d-flex justify-content-center align-items-center">
-        <button type="submit">Create User</button>
-      </div>
-    </form>
+        
+        <input type="file" name="uImage" required placeholder="Choose Image" />
+  
+        <div class="d-flex justify-content-center align-items-center">
+          <button type="submit">Create User</button>
+        </div>
+      </form>
+    </div>
   </div>
-</div>
-
-{%endblock%}
+  
+  {%endblock%}
+  

@@ -11,33 +11,33 @@
   <div>
     <img
       class="personal_photo"
-      src="https://imageio.forbes.com/specials-images/imageserve/5d35eacaf1176b0008974b54/0x0.jpg?format=jpg&crop=4560,2565,x790,y784,safe&height=900&width=1600&fit=bounds"
+      src="{{userdete.getImgURL}}"
       width="500px"
     />
   </div>
   <div class="inputs">
     <label>first name</label>
     <div
-      class="inputFeald"
+      class="inputFeald ps-5"
       type="text"
       placeholder="Enter your first name"
-    ></div>
+    >{{userdete.firstName}}</div>
     <label>last name</label>
     <div
-      class="inputFeald"
+      class="inputFeald ps-5"
       type="text"
       placeholder="Enter your last name"
-    ></div>
+    >{{userdete.lastName}}</div>
     <label>E-Mail</label>
-    <div class="inputFeald" type="email" placeholder="Enter your email"></div>
+    <div class="inputFeald ps-5" type="email" placeholder="Enter your email">{{userdete.email}}</div>
     <label>Password</label>
-    <div class="inputFeald" type="text" placeholder="Enter your Password"></div>
+    <div class="inputFeald ps-5" type="text" placeholder="Enter your Password">{{userdete.password}}</div>
     <label>phone Number</label>
     <div
-      class="inputFeald"
+      class="inputFeald ps-5"
       type="text"
       placeholder="Enter your phone Number"
-    ></div>
+    >{{userdete.mobilPhone}}</div>
   </div>
 </div>
 

@@ -4,13 +4,29 @@ from .views import *
 from django.contrib.auth import views as auth_views
 # from user import views as user_views
 
+# urlpatterns = [
+#     path('', allUser, name='allUser'),
+#     path('addUser/', addUser, name='addUser'),
+#     path('updateUser/<int:id>', updateUser, name='updateUser'),
+#     path('deleteUser/<int:id>', deleteUser, name='deleteUser'),
+#     path('userdetails/<int:id>', userdetails, name='userdetails'),
+# ]
 
 urlpatterns = [
     path('auth/',include('django.contrib.auth.urls')),
+
+    # path('', allUser, name='allUser'),
+    # path('addUser/', addUser, name='addUser'),
+    # path('updateUser/', updateUser, name='updateUser'),
+    # path('insertuser/', insertuser, name='insertuser'),
+
     path('', allUser, name='allUser'),
     path('addUser/', addUser, name='addUser'),
-    path('updateUser/', updateUser, name='updateUser'),
-    path('insertuser/', insertuser, name='insertuser'),
+    path('updateUser/<int:id>', updateUser, name='updateUser'),
+    path('deleteUser/<int:id>', deleteUser, name='deleteUser'),
+    path('userdetails/<int:id>', userdetails, name='userdetails'),
+
+
     path('register/', register, name='register'),
     path('profile/', profile, name='profile'),
     path('login/', auth_views.LoginView.as_view(template_name='users/login.html'), name='login'),
