@@ -3,6 +3,7 @@ from django.http import HttpResponse
 from .forms import UserRegisterForm, UserUpdateForm, ProfileUpdateForm
 from django.contrib.auth.decorators import login_required
 from django.contrib import messages
+from django.contrib.auth.models import User
 
 
 # Create your views here.
@@ -48,6 +49,13 @@ def profile(request):
 
     return render(request, 'users/profile.html', context)
 
+def DeleteAccount(request, user_id):
+    if request.method == 'POST':
+        user = User.objects.get(id=user_id)
+        user.delete()
+        return redirect('login')  
+    else:
+        return redirect('profile')
 
 def updateUser(request):
     return render(request,'updateUser.html')
