@@ -24,7 +24,7 @@ class UserRegisterForm(UserCreationForm):
 class ProfileForm(forms.ModelForm):
     class Meta:
         model = Profile
-        fields = ['image','mobile']
+        fields = ['image']
 
 class AdditionalForm(forms.ModelForm):
     class Meta:
@@ -43,4 +43,4 @@ class UserUpdateForm(forms.ModelForm):
 class ProfileUpdateForm(forms.ModelForm):
     class Meta:
         model = Profile
-        fields = ['image','mobile']
+        fields = ['image']

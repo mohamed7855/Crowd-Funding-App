@@ -1,5 +1,6 @@
-{% extends "index.html" %} {% load crispy_forms_tags %} {% block content %}
+{% extends "index.html" %} {% block content %}
 <div class="content-section">
+  {% csrf_token %}
   <form method="POST">
     {% csrf_token %}
     <!-- {{ form.username }} -->

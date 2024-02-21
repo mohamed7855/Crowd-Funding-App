@@ -1,6 +1,7 @@
 from django.db import models
 
-from user.models import User
+# from user.models import User
+from django.contrib.auth.models import User
 
 class Categories(models.Model):
     id = models.AutoField(primary_key=True)
@@ -18,6 +19,7 @@ class Project(models.Model):
     startTime = models.DateTimeField(auto_now=True)
     endTime = models.DateTimeField(auto_now=True)
     category_id = models.ForeignKey(Categories, on_delete=models.CASCADE,null=True)
+    user = models.ForeignKey(User, on_delete=models.CASCADE,default=None)
      
      
     def _str_(self):
@@ -56,7 +58,8 @@ class Project(models.Model):
             title=request.POST['title'],
             details=request.POST['projectDetail'],
             totalTarget=request.POST['target'],
-            category_id=category
+            category_id=category,
+            user=request.user
         )
 
         tags = request.POST.get('tags', '').split(',')

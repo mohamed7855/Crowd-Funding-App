@@ -40,7 +40,7 @@ INSTALLED_APPS = [
     'django.contrib.staticfiles',
     'fundProject.apps.FundprojectConfig',
     'user.apps.UserConfig',
-    'crispy_forms',
+    # 'crispy_forms',
     
 ]
 
