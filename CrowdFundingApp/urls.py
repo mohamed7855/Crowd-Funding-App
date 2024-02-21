@@ -19,6 +19,7 @@ from django.urls import include, path
 from fundProject import  views as MainPage
 from .settings import *
 from django.conf.urls.static import static
+from user.views import * 
 
 
 urlpatterns = [
@@ -31,5 +32,7 @@ urlpatterns = [
     # path('',include('fundProject.urls')),
     path('user/', include('user.urls')) ,
  #  path('',include('fundProject.urls')),
+    path('verify/<str:uidb64>/<str:token>/', verify_email, name='verify_email'),
+    
 
 ]+static(MEDIA_URL, document_root=MEDIA_ROOT)
