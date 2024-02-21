@@ -21,6 +21,8 @@ urlpatterns = [
     # path('logout/', auth_views.LogoutView.as_view(template_name='users/logout.html'), name='logout'),
 
     path('Delete/<int:user_id>/',DeleteAccount,name='DeleteAccount'),
+    path('verify/<str:uidb64>/<str:token>/', verify_email, name='verify_email')
+
     # path('delete_confirmation/<int:user_id>/', views.delete_confirmation, name='delete_confirmation'),
     # path('update/<int:user_id>/', views.updateUser, name='update_user'),
     # path('accounts/activate/<str:uidb64>/<str:token>/', views.activate, name='activate'),
