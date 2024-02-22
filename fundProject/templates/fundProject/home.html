@@ -70,7 +70,7 @@
 
   <!-- Projects Section -->
   <div class="container mt-5">
-    <h2 class="text-center">Projects</h2>
+    <h2 class="text-center my-4">Projects</h2>
     <div class="row gy-3">
       {%for project in projects%}
       <div class="col-md-4">
@@ -89,6 +89,10 @@
               <span style="font-weight: 600">Total Target:</span>
               {{project.totalTarget}}
             </p>
+            <p>
+              <span style="font-weight: 600">Average  Rate:</span>
+              {{ project.avg_rate }}
+          </p>
             <a href="{% url 'projectDetails' project.id %}">
               <button type="button" class="btn btn-info my-3">Details</button>
             </a>

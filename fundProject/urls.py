@@ -19,14 +19,6 @@ urlpatterns = [
     path('comment/<int:id>/delete/<int:comment_id>/', views.CommentDelete, name='CommentDelete'),
     path('search/', views.search_projects, name='search_projects'),
     path('category/<int:category_id>/', views.ProjectListByCategory, name='project_list_by_category'),
+    path('topProjectRate/', views.topProjectRate, name='topProjectRate'),
 
 ]
-
-# path('', mainPage, name='mainPage'),
-    # path('addProject/', addProject, name='addProject'),
-    # path('detailProject/',detailProject, name='detailProject'),
-    # path('projectList/<int:id>/', projectList),
-    # path('projectDetails/<int:id>/', projectDetails),
-    # path('addCommentOnProject/<int:id>/', addCommentOnProject),
-    # path('reportComment/<int:id>/', reportComment),
-    # path('cancelProject/<int:id>/', cancelProject),

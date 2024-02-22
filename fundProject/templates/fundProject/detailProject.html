@@ -74,7 +74,7 @@
               <td>
                 <h3>Project Name</h3>
               </td>
-              <td class='px-2'>
+              <td class="px-2">
                 <h3>:</h3>
               </td>
               <td>
@@ -83,68 +83,69 @@
             </tr>
             <tr>
               <td>
-                <h3  >Project Details</h3>
-                </td>
-                <td>
-                  <h3 class='px-2'>:</h3>
-                </td>
-               
+                <h3>Project Details</h3>
+              </td>
+              <td>
+                <h3 class="px-2">:</h3>
+              </td>
+
               <td>
                 <h5>{{ project.details }}</h5>
               </td>
             </tr>
-    
+
             <tr>
               <td>
                 <h3>Total Target</h3>
-                </td>
-                <td>
-                  <h3  class='px-2'>:</h3>
-                </td>
-               
+              </td>
+              <td>
+                <h3 class="px-2">:</h3>
+              </td>
+
               <td>
                 <h5>{{ project.totalTarget }}</h5>
               </td>
             </tr>
-    
+
             <tr>
               <td>
                 <h3>Category</h3>
-                </td>
-                <td>
-                  <h3  class='px-2'>:</h3>
-                </td>
-               
+              </td>
+              <td>
+                <h3 class="px-2">:</h3>
+              </td>
+
               <td>
                 <h5>{{ project.category_id }}</h5>
               </td>
             </tr>
-    
+
             <tr>
               <td>
                 <h3>Tags</h3>
-                </td>
-                <td>
-                  <h3  class='px-2'>:</h3>
-                </td>
-               
+              </td>
               <td>
-                <h5> 
+                <h3 class="px-2">:</h3>
+              </td>
+
+              <td>
+                <h5>
                   {% for tag in project_tags %} {% if not forloop.first %}
                   <span>,</span>
                   {% endif %}
                   <span>{{ tag.tag_name }}</span>
-                  {% endfor %}</h5>
+                  {% endfor %}
+                </h5>
               </td>
             </tr>
             <tr>
               <td>
                 <h3>Start Date</h3>
-                </td>
-                <td>
-                  <h3  class='px-2'>:</h3>
-                </td>
-               
+              </td>
+              <td>
+                <h3 class="px-2">:</h3>
+              </td>
+
               <td>
                 <h5>{{ project.startTime }}</h5>
               </td>
@@ -152,54 +153,68 @@
             <tr>
               <td>
                 <h3>End Date</h3>
-                </td>
-                <td>
-                  <h3  class='px-2'>:</h3>
-                </td>
-               
+              </td>
+              <td>
+                <h3 class="px-2">:</h3>
+              </td>
+
               <td>
                 <h5>{{ project.endTime }}</h5>
               </td>
             </tr>
-    
+            {% if avg_rate %}
+            <tr>
+              <td>
+                <h3>Average Rate</h3>
+              </td>
+              <td>
+                <h3 class="px-2">:</h3>
+              </td>
+              <td>
+                <h5>
+                  {{ avg_rate|default:"No ratings yet" }}
+                  {% if avg_rate %}
+                  <i class="fas fa-star text-warning fs-5"></i>
+                  {% endif %}
+                </h5>
+              </td>
+            </tr>
+            {% endif %}
+            
             {% if last_rate %}
             <tr>
               <td>
-                <h3>Rate</h3>
-                </td>
-                <td>
-                  <h3  class='px-2'>:</h3>
-                </td>
-               
+                <h3>Your Rate</h3>
+              </td>
               <td>
-                <h5>  {{ last_rate.rate }} <i class="fas fa-star text-warning fs-5"></i></h5>
+                <h3 class="px-2">:</h3>
+              </td>
+              <td>
+                <h5>
+                  {{ last_rate.rate }}
+                  <i class="fas fa-star text-warning fs-5"></i>
+                </h5>
               </td>
             </tr>
-    
-            {% endif %} 
-            {% if sum_donate %}
+            {% endif %}
+             {% if sum_donate %}
             <tr>
               <td>
                 <h3>Donate</h3>
-                </td>
-                <td>
-                  <h3  class='px-2'>:</h3>
-                </td>
-               
+              </td>
               <td>
-                <h5>  {{ sum_donate }}</h5>
+                <h3 class="px-2">:</h3>
+              </td>
+
+              <td>
+                <h5>{{ sum_donate }}</h5>
               </td>
             </tr>
-          
-            {% endif %} 
-    
-    
-            {% if messages %} {% for message in messages %} {% if forloop.last %}
+
+            {% endif %} {% if messages %} {% for message in messages %} {% if forloop.last %}
             <tr>
-              <td colspan='3'>
-                  <h3 class="text-danger">
-                    {{ message }}
-                  </h3>
+              <td colspan="3">
+                <h3 class="text-danger">{{ message }}</h3>
               </td>
             </tr>
             {% endif %} {% endfor %} {% endif %}
@@ -207,89 +222,112 @@
         </div>
         <div class="col-md-4">
           <form
-          method="get"
-          enctype="multipart/form-data"
-          action="{% url 'add_donate' project.id %}"
-        >
-          {% csrf_token %}
-          <div >
-            <input
-              type="number"
-              name="donation_value"
-              placeholder="Enter The Donate"
-              class='w-100 py-2 px-3 focus-ring-primary border rounded my-4'
-              required
-            />
-            <button type="submit" class="btn btn-primary w-100 text-light py-2 px-3 fs-4 ">Add Donate</button>
+            method="get"
+            enctype="multipart/form-data"
+            action="{% url 'add_donate' project.id %}"
+          >
+            {% csrf_token %}
+            <div>
+              <input
+                type="number"
+                name="donation_value"
+                placeholder="Enter The Donate"
+                class="w-100 py-2 px-3 focus-ring-primary border rounded my-4"
+                required
+              />
+              <button
+                type="submit"
+                class="btn btn-primary w-100 text-light py-2 px-3 fs-4"
+              >
+                Add Donate
+              </button>
+            </div>
+          </form>
+          <div class="d-flex my-3 justify-content-center align-items-center">
+            <button
+              id="addRateBtn"
+              class="btn btn-primary w-100 text-light py-2 px-3 fs-4 my-3"
+            >
+              Add Rate
+            </button>
           </div>
-        </form> 
-        <div class="d-flex my-3 justify-content-center align-items-center">
-          <button id="addRateBtn" class="btn btn-primary w-100 text-light py-2 px-3 fs-4 my-3">Add Rate</button>
-        </div>
-        <div class="d-flex my-2 justify-content-center align-items-center">
-          <a href="{% url 'comment' project.id %}" class='w-100'>
-            <button id="addComment" class="btn btn-primary w-100 text-light py-2 px-3 fs-4 ">Add Comment</button>
-          </a>
-        </div>
+          <div class="d-flex my-2 justify-content-center align-items-center">
+            <a href="{% url 'comment' project.id %}" class="w-100">
+              <button
+                id="addComment"
+                class="btn btn-primary w-100 text-light py-2 px-3 fs-4"
+              >
+                Add Comment
+              </button>
+            </a>
+          </div>
         </div>
       </div>
 
-    <div class="container mt-5">
-      <h2 class="text-center mb-5 fw-bold">Projects with Similar Tags</h2>
-      <div class="row gy-3">
-        {% for project in similar_projects %}
-        <div class="col-md-4">
-          <div class="card">
-            <div style="height: 300px">
-              <img
-                style="width: 100%; height: 100%"
-                src="{{ project.img.0.getImgURL }}"
-                class="card-img-top"
-                alt="Project Image"
-              />
-            </div>
-            <div class="card-body text-start">
-              <p class="card-text">
-                <span style="font-size: 2rem; font-weight: 600">Title :</span>
-                <span style="font-size: 1.5rem; font-weight: 600">{{ project.title }}</span>
-                
-              </p>
-              <p class="card-text">
-                <span style="font-size: 2rem; font-weight: 600">Tags :</span>
-                {% for tag in project.tags.all %} <span style="font-size: 1.5rem; font-weight: 600">{{ tag.tag_name }}</span>  {% if not forloop.last %}
-                <span style="font-size: 1.5rem; font-weight: 600">,</span>  
-                 {% endif %} {% endfor %}
-              </p>
-              <div class="d-flex justify-content-center align-items-center">
-                <a href="{% url 'projectDetails' project.id %}" class="w-100">
-                  <button
-                    type="button"
-                    class="btn btn-primary my-3 text-white w-100 fs-3 py-2 px-3"
+      <div class="container mt-5">
+        <h2 class="text-center mb-5 fw-bold">Projects with Similar Tags</h2>
+        <div class="row gy-3">
+          {% for project in similar_projects %}
+          <div class="col-md-4">
+            <div class="card">
+              <div style="height: 300px">
+                <img
+                  style="width: 100%; height: 100%"
+                  src="{{ project.img.0.getImgURL }}"
+                  class="card-img-top"
+                  alt="Project Image"
+                />
+              </div>
+              <div class="card-body text-start">
+                <p class="card-text">
+                  <span style="font-size: 2rem; font-weight: 600">Title :</span>
+                  <span style="font-size: 1.5rem; font-weight: 600"
+                    >{{ project.title }}</span
                   >
-                    Details
-                  </button>
-                </a>
+                </p>
+                <p class="card-text">
+                  <span style="font-size: 2rem; font-weight: 600">Tags :</span>
+                  {% for tag in project.tags.all %}
+                  <span style="font-size: 1.5rem; font-weight: 600"
+                    >{{ tag.tag_name }}</span
+                  >
+                  {% if not forloop.last %}
+                  <span style="font-size: 1.5rem; font-weight: 600">,</span>
+                  {% endif %} {% endfor %}
+                </p>
+                <div class="d-flex justify-content-center align-items-center">
+                  <a href="{% url 'projectDetails' project.id %}" class="w-100">
+                    <button
+                      type="button"
+                      class="btn btn-primary my-3 text-white w-100 fs-3 py-2 px-3"
+                    >
+                      Details
+                    </button>
+                  </a>
+                </div>
               </div>
             </div>
           </div>
+          {% endfor %}
         </div>
-        {% endfor %}
       </div>
     </div>
   </div>
+
+  <script src="{% static 'bootstrap/js/bootstrap.bundle.min.js' %}"></script>
+  <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.1.3/dist/js/bootstrap.bundle.min.js"></script>
+  <script src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.10.2/dist/umd/popper.min.js"></script>
+
+  <script>
+    document
+      .getElementById("addRateBtn")
+      .addEventListener("click", function () {
+        var rate = prompt("Enter rate:");
+        if (rate !== null && rate !== "") {
+          window.location.href = "{% url 'add_rate' project.id %}?rate=" + rate;
+        }
+      });
+  </script>
+
+  {% endblock %}
 </div>
-
-<script src="{% static 'bootstrap/js/bootstrap.bundle.min.js' %}"></script>
-<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.1.3/dist/js/bootstrap.bundle.min.js"></script>
-<script src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.10.2/dist/umd/popper.min.js"></script>
-
-<script>
-  document.getElementById("addRateBtn").addEventListener("click", function () {
-    var rate = prompt("Enter rate:");
-    if (rate !== null && rate !== "") {
-      window.location.href = "{% url 'add_rate' project.id %}?rate=" + rate;
-    }
-  });
-</script>
-
-{% endblock %}

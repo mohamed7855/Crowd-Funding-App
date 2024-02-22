@@ -12,6 +12,8 @@ from django.db import transaction
 from django.contrib.auth.decorators import login_required
 from .models import Project, Categories
 from django.db.models import Q
+from django.db.models import Avg
+
 import re
 def mainPage(request):
     return  render(request,'fundProject/home.html')
@@ -55,20 +57,27 @@ def addProject(request):
     
     return render(request, 'fundProject/addProject.html', {'categories': categories})
 
+
 def projectList(request):
-    
     projects = Project.objects.all().order_by('-startTime')[:5]
     categories = Categories.objects.all()
+    
     for project in projects:
         setattr(project, 'img', Images.objects.filter(project_id=project))
         tags = Tags.objects.filter(project_id=project)
-        project.tags = ", ".join(tag.tag_name for tag in tags)
+        project.tags = ",".join(tag.tag_name for tag in tags)
+        if project.tags.startswith(","):
+            project.tags = project.tags[1:]
+        
+        # Calculate the average rate for the project
+        avg_rate = Rate.objects.filter(project_id=project).aggregate(Avg('rate'))
+        project.avg_rate = avg_rate['rate__avg']
+    
     context = {'projects': projects, "categories": categories}
     context['imgs'] = Images.imageList()
+    
     return render(request, 'fundProject/home.html', context)
 
-# projects = Project.objects.all()[:5]
-    # # Fetch only the first 5 projects
 
 
 
@@ -129,18 +138,27 @@ def projectDelete(request, id):
 
 
 
+@login_required(login_url='/user/login')
 def projectDetails(request, projectid):
     obj = Project.projectDetails(projectid)
     setattr(obj, 'img', Images.objects.filter(project_id=obj))
-    last_rate = Rate.objects.filter(project_id=obj).order_by('-id').first()
+    last_rate = Rate.objects.filter(project_id=obj, user=request.user).first()
     sum_donate = Donation.objects.filter(project_id=obj).aggregate(Sum('donation_value'))['donation_value__sum']
     comments = Comment.objects.filter(project_id=obj)  
     project_tags = Tags.objects.filter(project_id=obj)
     similar_projects = Project.objects.filter(tags__tag_name__in=project_tags.values('tag_name')).exclude(id=obj.id).distinct()[:4]
+    
+    avg_rate = Rate.objects.filter(project_id=obj).aggregate(Avg('rate'))['rate__avg']
+    
     for project in similar_projects:
         setattr(project, 'img', Images.objects.filter(project_id=project))
         project.tags = Tags.objects.filter(project_id=project)
-    context = {'project': obj, 'last_rate': last_rate, 'sum_donate': sum_donate, 'comments': comments,"project_tags":project_tags}
+    
+    obj.tags = ", ".join(tag.tag_name for tag in project_tags)
+    if obj.tags.startswith(","):
+        obj.tags = obj.tags[1:]
+    
+    context = {'project': obj, 'last_rate': last_rate, 'sum_donate': sum_donate, 'comments': comments, "project_tags": project_tags, 'avg_rate': avg_rate}
     context['similar_projects'] = similar_projects
     return render(request, 'fundProject/detailProject.html', context)
 
@@ -173,13 +191,20 @@ def add_rate(request, project_id):
             rate = int(rate)
             if 0 <= rate <= 10:  
                 project = get_object_or_404(Project, pk=project_id)
-                Rate.objects.create(project_id=project, rate=rate, user=request.user)
-                return redirect('projectDetails', projectid=project_id)
+                existing_rate = Rate.objects.filter(project_id=project, user=request.user).first()
+                if existing_rate:
+                    existing_rate.rate = rate
+                    existing_rate.save()
+                else:
+                    Rate.objects.create(project_id=project, rate=rate, user=request.user)
+                messages.success(request, 'Rate added successfully.')
             else:
                 messages.error(request, 'Rate must be between 0 and 10.')
         else:
-            messages.error(request, 'Rate must be Postive Number')
+            messages.error(request, 'Rate must be a positive number.')
     return redirect('projectDetails', projectid=project_id)
+
+
 
 @login_required(login_url='/user/login')
 def add_donate(request, project_id):
@@ -225,7 +250,7 @@ def deleteCategory(request):
         category.delete()
     return redirect('allCategory')
 
-
+@login_required(login_url='/user/login')
 def search_projects(request):
     query = request.GET.get('search')
     projects_by_title = Project.objects.filter(title__exact=query)
@@ -235,102 +260,34 @@ def search_projects(request):
     for project in projects:
         setattr(project, 'img', Images.objects.filter(project_id=project))
         tags = Tags.objects.filter(project_id=project)
-        project.tags = ", ".join(tag.tag_name for tag in tags)
+        project.tags = ",".join(tag.tag_name for tag in tags)
+        if project.tags.startswith(","):
+            project.tags = project.tags[1:]
     context = {'projects': projects, 'query': query,'categories':categories}
     context['imgs']=Images.imageList()
     return render(request, 'fundProject/home.html', context)
 
-# def add_all_Comment(request, id):
-#     if request.method == 'POST':
-#         comment_text = request.POST.get('comment_text')
-#         if comment_text:
-#             project = Project.objects.get(pk=id)
-#             Comment.objects.create(project_id=project, comment=comment_text)
-#     # Redirect back to the project detail page
-#     return redirect('projectDetails', projectid=id)
-
-# def add_all_Comment(request, id):
-#     if request.method == 'POST':
-#         comment = request.POST.get('comment')
-#         if comment:
-#             project = Project.objects.get(pk=id)
-#             Comment.objects.create(project_id=project, comment=comment)
-#             return redirect('add_all_Comment') 
-#     comments = Comment.objects.all()
-#     return render(request, 'fundProject/comment.html', {'comments': comments})
-
-# def projectDetails(request,projectid):
-#     obj=Project.projectDetails(projectid)
-#     setattr(obj, 'img', Images.objects.filter(project_id=obj))
-#     context={'project':obj}
-#     return  render(request,'fundProject/detailProject.html',context)
 
 
-# def addProject(request):
-#      return  render(request,'fundProject/addProject.html')
-
-
-# def detailProject(request):
-#      return  render(request,'fundProject/detailProject.html')
-
- 
-# def projectList(request, id):
+@login_required(login_url='/user/login')
+def topProjectRate(request):
+    projects = Project.objects.annotate(avg_rate=Avg('rate__rate')).order_by('-avg_rate')[:5]
     
-#     return HttpResponse(f'the Project ID: {id}')
-
-
-# def projectDetails(request, id):
+    categories = Categories.objects.all()
     
-#     return HttpResponse(f'the Project Details ID: {id}')
-
-
-# def addCommentOnProject(request, id):
-    
-#     return HttpResponse(f'Comment on Project {id}')
-
-
-# def reportComment(request, id):
-    
-#     return HttpResponse(f'report Comment on Project {id}')
-
-    
-# def cancelProject(request, id):
-    
-#     return HttpResponse(f'cancel Project {id}')
-
-# def addProject(request):
-#     categories = Categories.objects.all()
-#     if request.method == 'POST':
-#         category_id = request.POST.get('category', None)
-#         category = Categories.objects.get(id=category_id) if category_id else None
+    for project in projects:
+        tags = Tags.objects.filter(project_id=project)
+        project.tags = ",".join(tag.tag_name for tag in tags)
+        if project.tags.startswith(","):
+            project.tags = project.tags[1:]
         
-#         project = Project.projectAdd(
-#             title=request.POST['title'],
-#             details=request.POST['projectDetail'],
-#             totalTarget=request.POST['target'],
-#             category_id=category 
-#         )
-        
-#         images = request.FILES.getlist('projectimage[]')
-#         if images:
-#             for img in images:
-#                 image = Images.objects.create(img=img, project_id=project)
-#                 image.save()
-#         return HttpResponseRedirect(reverse('project.all'))
-#     return render(request, 'fundProject/addProject.html', {'categories': categories})
-
-
-
-
-# def projectUpdate(request,id):
-#     project=Project.projectDetails(id)
-#     project.startTime = formatDate(project.startTime)
-#     project.endTime = formatDate(project.endTime)
-#     context={'project':project}
-#     if request.method == 'POST':
-#             if (request.POST['title'] != ''):
-#                 Project.projectUpdate(request,id)
-#                 return HttpResponseRedirect(reverse('project.all'))
-#             else:
-#                 context['msg']='Kindly fill all fields'
-#     return render(request,'fundProject/updateProject.html',context)
+        project.img = Images.objects.filter(project_id=project)
+    
+    context = {
+        'projects': projects,
+        "categories": categories,
+        'imgs': Images.imageList()  
+    }
+    
+    return render(request, 'fundProject/home.html', context)
+    

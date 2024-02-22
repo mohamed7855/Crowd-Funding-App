@@ -38,7 +38,7 @@
         <!-- Navbar links -->
         <div class="collapse navbar-collapse" id="navbarNavAltMarkup">
           <div class="navbar-nav">
-            <a class="nav-link active" aria-current="page" href="">Top Projects</a>
+            <a class="nav-link active" aria-current="page" href="{%url 'topProjectRate'%}">Top Projects</a>
             <a class="nav-link" href="{%url 'myProjects'%}">My Projects</a>
             {% if user.is_authenticated %}
                 {% if user.is_superuser %}
