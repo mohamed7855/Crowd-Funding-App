@@ -16,6 +16,7 @@
 </style>
 <div class="content-section">
   <div class="form-container">
+    {% csrf_token %}
     <form method="POST">
       {% csrf_token %}
       <!-- {{ form.username }} -->

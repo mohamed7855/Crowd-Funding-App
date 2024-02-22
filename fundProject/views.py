@@ -334,4 +334,3 @@ def search_projects(request):
 #             else:
 #                 context['msg']='Kindly fill all fields'
 #     return render(request,'fundProject/updateProject.html',context)
-

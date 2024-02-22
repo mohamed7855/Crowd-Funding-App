@@ -1,8 +1,14 @@
 from django.db import models
+
+from django.contrib.auth import authenticate
+from django.contrib.auth.models import User
+from django.utils import timezone
+
 from django.contrib.auth.models import User
 from PIL import Image
 import uuid
 from django.utils import timezone
+
 
 # Create your models here.
 class Profile(models.Model):
@@ -11,6 +17,27 @@ class Profile(models.Model):
 
     def __str__(self):
         return f'{self.user.username} Profile'
+
+
+
+
+# class User(models.Model):    
+#     firstName=models.TextField()
+#     lastName=models.TextField()
+#     email=models.EmailField()
+#     password=models.TextField()
+#     confirmPass=models.TextField()
+#     mobilPhone=models.TextField()
+#     photo=models.TextField()
+#     is_active = models.BooleanField(default=False)
+
+#     @classmethod
+#     def userList(self):
+#         return self.objects.all()
+
+#     def __str__(self):
+#         return f'{self.user.username} Profile'
+
     
     # def save(self, *args, **kwargs):
     #     super().save(*args, **kwargs)

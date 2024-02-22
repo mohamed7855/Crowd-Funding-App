@@ -160,6 +160,3 @@ class ProjectReports(models.Model):
     project_id = models.ForeignKey(Project, on_delete=models.CASCADE)
     message = models.CharField(max_length=100)
     user_id = models.ForeignKey(User, on_delete=models.CASCADE)
-
-
-

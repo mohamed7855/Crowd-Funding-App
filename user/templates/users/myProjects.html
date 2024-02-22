@@ -1,0 +1,9 @@
+{% extends "index.html" %} {% block content %}
+<div class="content-section mt-5">
+  {% for project in projects %}
+  <h3>Project title: {{project.title}}</h3>
+  <h3>Project totalTarget: {{project.totalTarget}}</h3>
+  <h3>Project category_id: {{project.category_id}}</h3>
+  {{project.endTime}} {{project.details}} {% endfor %}
+</div>
+{% endblock content %}
