@@ -6,6 +6,8 @@ from django.contrib import messages
 from django.shortcuts import render , reverse
 from django.http import HttpResponseRedirect
 from .models import Users
+from django.contrib.auth.models import User
+from fundProject.models import Project
 
 
 
@@ -44,14 +46,22 @@ def profile(request):
     else:
         u_form = UserUpdateForm(instance=request.user)
         p_form = ProfileUpdateForm(instance=request.user.profile)
-
     context = {
         'u_form': u_form,
-        'p_form': p_form
+        'p_form': p_form,
+        'projects':Project.objects.filter(creator=request.user.id)
     }
 
     return render(request, 'users/profile.html', context)
 
+
+def DeleteAccount(request, user_id):
+    if request.method == 'POST':
+        user = User.objects.get(id=user_id)
+        user.delete()
+        return redirect('login')  
+    else:
+        return redirect('profile')
 #===========================================================================
 
 def updateUser(request, id):
@@ -81,7 +91,7 @@ def addUser(request):
 
 
 def allUser(request):
-    context={'users':Users.userList()} 
+    context={'users':User.objects.all()} 
     return  render(request,'allUser.html',context)
 
 #===========================================================================

@@ -12,6 +12,15 @@
   </div>
   <form method="POST" enctype="multipart/form-data">
     {% csrf_token %}
+    <!-- username:
+    <div class="bg-danger">{{ u_form.username }}</div>
+    firstname:
+    <div class="bg-danger">{{ u_form.first_name }}</div>
+    lastname:
+    <div class="bg-danger">{{ u_form.last_name }}</div>
+    mobile:
+    <div class="bg-danger">{{ p_form.mobile }}</div> -->
+
     <fieldset class="form-group">
       <legend class="border-bottom mb-4">Profile Info</legend>
       {{ u_form }} {{ p_form }}
@@ -20,5 +29,17 @@
       <button class="btn btn-outline-info" type="submit">Update</button>
     </div>
   </form>
+
+  <form action="{% url 'DeleteAccount' user_id=user.id %}" method="post">
+    {% csrf_token %}
+    <button type="submit">Yes</button>
+  </form>
+  <a href="{% url 'project.all' %}">No, cancel</a>
 </div>
+  {% for project in projects %}
+    <h3>Project title: {{project.title}}</h3>  
+    <h3>Project totalTarget: {{project.totalTarget}}</h3>
+    <h3>Project category_id: {{project.category_id}}</h3>
+    
+    {% endfor %}
 {% endblock content %}
