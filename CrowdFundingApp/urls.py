@@ -24,15 +24,7 @@ from user.views import *
 
 urlpatterns = [
     path('admin/', admin.site.urls),
-    # path('', MainPage.mainPage),
     path('', include('fundProject.urls')) ,
-    # path('', include('user.urls')),
-    # path('', MainPage.mainPage),
-    # path('', include('fundProject.urls')) ,
-    # path('',include('fundProject.urls')),
     path('user/', include('user.urls')) ,
- #  path('',include('fundProject.urls')),
     path('verify/<str:uidb64>/<str:token>/', verify_email, name='verify_email'),
-    
-
 ]+static(MEDIA_URL, document_root=MEDIA_ROOT)
