@@ -84,14 +84,15 @@
             <a href="{% url 'projectDetails' project.id %}">
               <button type="button" class="btn btn-info my-3">Details</button>
             </a>
-
+            {% if user.is_authenticated and user.id == project.user.id %}
             <a href="{% url 'project.update' project.id%}">
               <button type="button" class="btn btn-secondary my-3">Update</button>
             </a>
+            
             <a href="{% url 'project.delete' project.id%}">
               <button type="button" id="Delete" class="btn btn-danger my-3 delete-btn">Delete</button>
             </a>
-  
+            {% endif %}
 
             <p>End Date: {{project.endTime}}</p>
             <p>Tags: {{ project.tags }}</p> 

@@ -105,6 +105,9 @@ class Tags(models.Model):
     project_id = models.ForeignKey(Project, on_delete=models.CASCADE)
     tag_name = models.CharField(max_length=40)
 
+    def __str__(self):
+        return self.tag_name
+    
     @classmethod
     def delete_tags_for_project(cls, project):
         cls.objects.filter(project_id=project).delete()
@@ -132,20 +135,20 @@ class Images (models.Model):
     
 class Donation(models.Model):
     project_id = models.ForeignKey(Project, on_delete=models.CASCADE)
-    # user_id = models.ForeignKey(User, on_delete=models.CASCADE)
+    user = models.ForeignKey(User, on_delete=models.CASCADE,null=True)
     donation_value = models.IntegerField()
 
 
 class Rate(models.Model):
     project_id = models.ForeignKey(Project, on_delete=models.CASCADE)
     rate = models.IntegerField()
-    # user_id = models.ForeignKey(User, on_delete=models.CASCADE)
+    user = models.ForeignKey(User, on_delete=models.CASCADE,default=None)
 
 
 class Comment(models.Model):
     project_id = models.ForeignKey(Project, on_delete=models.CASCADE)
     comment = models.TextField(default='')
-    # user_id = models.ForeignKey(User, on_delete=models.CASCADE)
+    user = models.ForeignKey(User, on_delete=models.CASCADE,null=True)
 
 class CommentReports(models.Model):
     comment_id = models.ForeignKey(Comment, on_delete=models.CASCADE)
