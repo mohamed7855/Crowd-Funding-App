@@ -1,29 +1,27 @@
-{%extends 'index.html'%} {%load static %} {%block content%} {% block style %}
-<link rel="stylesheet" href="{% static 'css/allUser.css' %}" />
-{% endblock %}
-<h1>All User</h1>
+{% extends 'index.html' %}
+{% load static %}
+{% block content %}
+  {% block style %}
+    <link rel="stylesheet" href="{% static 'css/allUser.css' %}" />
+  {% endblock %}
+  <h1 class="text-center">All Users</h1>
 
-<div class="container my-5">
-  <div class="row gy-5">
-    {{users}}
-    {%for user in users%}
-    {{user.img}}
-    <div class="col-lg-4 col-md-6">
-      <div class="user">
-        <div class="image-user">
-          <img  src="/media/{{user.img}}" alt="user" />
-        </div>
-        <div class="info">
-          <h3>{{user.first_name}} {{user.last_name}}</h3>
-          <div>
-            <a href="{% url 'updateUser' user.id %}" style="margin-bottom: 15px" class="btn btn-primary">Update</a>
-            <a href="{% url 'deleteUser' user.id %}" style="margin-bottom: 15px" class="btn btn-danger">Delete</a>
-            <a href="{% url 'userdetails' user.id %}" style="margin-bottom: 15px" class="btn btn-success"> Details</a>
+  <div class="container my-5">
+    <div class="row gy-5">
+      {% for user in users %}
+        <div class="col-lg-4 col-md-6">
+          <div class="card">
+            <img src="{{ user.data.0.getImgURL }}" class="card-img-top" alt="user">
+            <div class="card-body ">
+              <h5 class="card-title">Username: {{ user.username }}</h5>
+              <p class="card-text">Email: {{ user.email }}</p>
+              <p class="card-text">First Name: {{ user.first_name }}</p>
+              <p class="card-text">Last Name: {{ user.last_name }}</p>
+         
+            </div>
           </div>
         </div>
-      </div>
+      {% endfor %}
     </div>
-    {%endfor%}
-  </div> 
-</div>
-{%endblock%}
+  </div>
+{% endblock %}

@@ -20,6 +20,7 @@ class Project(models.Model):
     endTime = models.DateTimeField(auto_now=True)
     category_id = models.ForeignKey(Categories, on_delete=models.CASCADE,null=True)
     user = models.ForeignKey(User, on_delete=models.CASCADE,default=None)
+    
      
      
     def _str_(self):

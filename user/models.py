@@ -1,11 +1,9 @@
 from django.db import models
-
 from django.contrib.auth import authenticate
 from django.contrib.auth.models import User
 from django.utils import timezone
-
 from django.contrib.auth.models import User
-from PIL import Image
+
 import uuid
 from django.utils import timezone
 
@@ -15,11 +13,11 @@ class Profile(models.Model):
     user = models.OneToOneField(User, on_delete=models.CASCADE,null=True)
     image = models.ImageField(default='default.jpg', upload_to='user/images', null=True)
     mobile = models.CharField(max_length=15, blank=True, null=True)
-    
 
 
-
-
+    # Instance methods
+    def getImgURL(self): 
+        return f"/media/{self.image}"
 
 
 # class User(models.Model):    

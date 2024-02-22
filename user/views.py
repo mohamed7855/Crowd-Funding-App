@@ -1,8 +1,9 @@
 from django.shortcuts import render, redirect, get_object_or_404
 from django.http import HttpResponse
 from django.contrib.auth.models import User
-from fundProject.models import Project
+from fundProject.models import Project,Donation,Images
 from django.contrib.auth import authenticate
+from .models import Profile
 
 # Create your views here.
 
@@ -75,7 +76,16 @@ def profile(request):
 
 @login_required
 def myProjects(request):
-    context = {'projects':Project.objects.filter(user=request.user)}
+    projects = Project.objects.filter(user=request.user)
+    for project in projects:
+        setattr(project, 'img', Images.objects.filter(project_id=project))
+    
+    donations = Donation.objects.filter(user=request.user)
+    for donation in donations:
+        setattr(donation, 'img', Images.objects.filter(project_id=donation.project_id))
+    
+    
+    context = {'projects':projects, 'donations':donations}
     return render(request, 'users/myProjects.html', context)
 
 
@@ -99,7 +109,11 @@ def addUser(request):
     return render(request, 'addUser.html')
 
 def allUser(request):
-    return render(request, 'allUser.html')
+    users = User.objects.all()
+    for user in users:
+        setattr(user, 'data', Profile.objects.filter(user=user))
+    context = {'users':users}
+    return render(request, 'allUser.html',context)
 
 
 def verify_email(request, uidb64, token):

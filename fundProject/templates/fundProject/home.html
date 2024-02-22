@@ -92,7 +92,7 @@
             <a href="{% url 'projectDetails' project.id %}">
               <button type="button" class="btn btn-info my-3">Details</button>
             </a>
-            {% if user.is_authenticated and user.id == project.user.id %}
+            {% if user.is_authenticated and user.id  == project.user.id or user.is_superuser %}
             <a href="{% url 'project.update' project.id%}">
               <button type="button" class="btn btn-secondary my-3">Update</button>
             </a>
