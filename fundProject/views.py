@@ -150,7 +150,7 @@ def comment(request, id):
     if request.method == 'POST':
         comment_text = request.POST.get('comment_text')
         if comment_text:
-            Comment.objects.create(project_id=obj, comment=comment_text)
+            Comment.objects.create(project_id=obj, comment=comment_text,user=request.user)
     comments = Comment.objects.filter(project_id=obj)
     context = {'project': obj, 'comments': comments}
     return render(request, 'fundProject/comment.html', context)
@@ -173,7 +173,7 @@ def add_rate(request, project_id):
             rate = int(rate)
             if 0 <= rate <= 10:  
                 project = get_object_or_404(Project, pk=project_id)
-                Rate.objects.create(project_id=project, rate=rate)
+                Rate.objects.create(project_id=project, rate=rate, user=request.user)
                 return redirect('projectDetails', projectid=project_id)
             else:
                 messages.error(request, 'Rate must be between 0 and 10.')
@@ -189,7 +189,7 @@ def add_donate(request, project_id):
             donation_value = int(donation_value)
             if donation_value > 0: 
                 project = get_object_or_404(Project, pk=project_id)
-                Donation.objects.create(project_id=project, donation_value=donation_value)
+                Donation.objects.create(project_id=project, donation_value=donation_value,user=request.user)
                 return redirect('projectDetails', projectid=project_id)
             else:
                 messages.error(request, 'Donation value must be a positive number.')
@@ -334,4 +334,3 @@ def search_projects(request):
 #             else:
 #                 context['msg']='Kindly fill all fields'
 #     return render(request,'fundProject/updateProject.html',context)
-

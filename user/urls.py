@@ -24,22 +24,28 @@ urlpatterns = [
     path('', allUser, name='allUser'),
     path('addUser/', addUser, name='addUser'),
     path('updateUser/<int:id>', updateUser, name='updateUser'),
-    path('deleteUser/<int:id>', deleteUser, name='deleteUser'),
-    path('userdetails/<int:id>', userdetails, name='userdetails'),
+    # path('deleteUser/<int:id>', deleteUser, name='deleteUser'),
+    # path('userdetails/<int:id>', userdetails, name='userdetails'),
 
 
     path('register/', register, name='register'),
+
+
     path('profile/', profile, name='profile'),
     path('login/', auth_views.LoginView.as_view(template_name='users/login.html'), name='login'),
+
+    path('logout/', auth_views.LogoutView.as_view(template_name='users/logout.html'), name='logout'),
+
     # path('logout/', LogoutView.as_view(template_name='users/logout.html'), name='logout'),
     
     path('logout/', auth_views.LogoutView.as_view(next_page='login'), name='logout'),
     # path('logout/', auth_views.LogoutView.as_view(template_name='users/logout.html'), name='logout'),
 
     path('Delete/<int:user_id>/',DeleteAccount,name='DeleteAccount'),
+    path('verify/<str:uidb64>/<str:token>/', verify_email, name='verify_email')
+
     # path('delete_confirmation/<int:user_id>/', views.delete_confirmation, name='delete_confirmation'),
     # path('update/<int:user_id>/', views.updateUser, name='update_user'),
     # path('accounts/activate/<str:uidb64>/<str:token>/', views.activate, name='activate'),
-    
 ]
  

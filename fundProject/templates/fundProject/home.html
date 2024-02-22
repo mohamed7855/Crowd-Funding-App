@@ -60,6 +60,14 @@
     </div>
   </div>
 
+  {% if messages %}
+    {% for message in messages%}
+      <div class="alert alert-{{ message.tags }}"> 
+        {{ message }}
+      </div>
+      {% endfor %}
+  {% endif %}
+
   <!-- Projects Section -->
   <div class="container mt-5">
     <h2 class="text-center">Projects</h2>

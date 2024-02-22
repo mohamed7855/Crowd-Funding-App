@@ -1,5 +1,7 @@
 from django.db import models
-from user.models import User , Profile
+from user.models import Profile
+# from user.models import User
+from django.contrib.auth.models import User
 
 class Categories(models.Model):
     id = models.AutoField(primary_key=True)
@@ -17,9 +19,7 @@ class Project(models.Model):
     startTime = models.DateTimeField(auto_now=True)
     endTime = models.DateTimeField(auto_now=True)
     category_id = models.ForeignKey(Categories, on_delete=models.CASCADE,null=True)
-    creator=models.ForeignKey(Profile, on_delete=models.CASCADE,null=True)
-    
-
+    user = models.ForeignKey(User, on_delete=models.CASCADE,default=None)
      
      
     def _str_(self):
@@ -55,7 +55,7 @@ class Project(models.Model):
         category = Categories.objects.get(id=category_id) if category_id else None
 
         user=request.user
-        creator = Profile.objects.get(user=user) 
+        user = Profile.objects.get(user=user) 
         
 
         project = cls.objects.create(
@@ -63,7 +63,7 @@ class Project(models.Model):
             details=request.POST['projectDetail'],
             totalTarget=request.POST['target'],
             category_id=category,
-            creator=creator
+            user=request.user
         )
 
         tags = request.POST.get('tags', '').split(',')
@@ -109,6 +109,9 @@ class Tags(models.Model):
     project_id = models.ForeignKey(Project, on_delete=models.CASCADE)
     tag_name = models.CharField(max_length=40)
 
+    def __str__(self):
+        return self.tag_name
+    
     @classmethod
     def delete_tags_for_project(cls, project):
         cls.objects.filter(project_id=project).delete()
@@ -136,20 +139,20 @@ class Images (models.Model):
     
 class Donation(models.Model):
     project_id = models.ForeignKey(Project, on_delete=models.CASCADE)
-    # user_id = models.ForeignKey(User, on_delete=models.CASCADE)
+    user = models.ForeignKey(User, on_delete=models.CASCADE,null=True)
     donation_value = models.IntegerField()
 
 
 class Rate(models.Model):
     project_id = models.ForeignKey(Project, on_delete=models.CASCADE)
     rate = models.IntegerField()
-    # user_id = models.ForeignKey(User, on_delete=models.CASCADE)
+    user = models.ForeignKey(User, on_delete=models.CASCADE,default=None)
 
 
 class Comment(models.Model):
     project_id = models.ForeignKey(Project, on_delete=models.CASCADE)
     comment = models.TextField(default='')
-    # user_id = models.ForeignKey(User, on_delete=models.CASCADE)
+    user = models.ForeignKey(User, on_delete=models.CASCADE,null=True)
 
 class CommentReports(models.Model):
     comment_id = models.ForeignKey(Comment, on_delete=models.CASCADE)
@@ -161,6 +164,3 @@ class ProjectReports(models.Model):
     project_id = models.ForeignKey(Project, on_delete=models.CASCADE)
     message = models.CharField(max_length=100)
     user_id = models.ForeignKey(User, on_delete=models.CASCADE)
-
-
-
