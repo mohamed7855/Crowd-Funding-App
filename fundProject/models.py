@@ -1,5 +1,5 @@
 from django.db import models
-
+from user.models import Profile
 # from user.models import User
 from django.contrib.auth.models import User
 
@@ -53,7 +53,11 @@ class Project(models.Model):
     def projectAdd(cls, request):
         category_id = request.POST.get('category', None)
         category = Categories.objects.get(id=category_id) if category_id else None
+
+        user=request.user
+        user = Profile.objects.get(user=user) 
         
+
         project = cls.objects.create(
             title=request.POST['title'],
             details=request.POST['projectDetail'],

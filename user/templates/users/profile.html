@@ -171,4 +171,10 @@
     <a class="btn cancel" href="{% url 'project.all' %}">Cancel</a>
   </div>
 </div>
+  {% for project in projects %}
+    <h3>Project title: {{project.title}}</h3>  
+    <h3>Project totalTarget: {{project.totalTarget}}</h3>
+    <h3>Project category_id: {{project.category_id}}</h3>
+    
+    {% endfor %}
 {% endblock content %}

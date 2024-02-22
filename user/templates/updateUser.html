@@ -5,42 +5,57 @@
   rel="stylesheet"
 />
 {% endblock %}
+<form method="post" enctype="multipart/form-data" 
+  oninput='uConfirmPass.setCustomValidity(uConfirmPass.value != uPassword.value ? "Passwords do not match." : "")'>
+  {%csrf_token%}
 
-<h1 class="hello">Update Your details</h1>
-<div class="d-flex justify-content-center align-items-center">
-  <div class="card">
-    <img
-      src="https://imageio.forbes.com/specials-images/imageserve/5d35eacaf1176b0008974b54/0x0.jpg?format=jpg&crop=4560,2565,x790,y784,safe&height=900&width=1600&fit=bounds"
-      class="card-img-top"
-      alt="..."
-    />
-    <div class="card-body">
-      <input
-        class="inputFeald"
-        type="text"
-        placeholder="Enter your first name"
+  <h1 class="hello">Update Your details</h1>
+  <div class="d-flex justify-content-center align-items-center">
+    <div class="card">
+      <img
+        src="{{user.getImgURL}}"
+        class="card-img-top"
+        
+        alt="..."
       />
-      <input
-        class="inputFeald"
-        type="text"
-        placeholder="Enter your last name"
-      />
-      <input class="inputFeald" type="email" placeholder="Enter your email" />
-      <input class="inputFeald" type="text" placeholder="Enter your Password" />
-      <input
-        class="inputFeald"
-        type="text"
-        placeholder="confirm your password"
-      />
-      <input
-        class="inputFeald"
-        type="text"
-        placeholder="Enter your phone Number"
-      />
+      <div class="card-body">
+        <input
+          class="inputFeald"
+          type="text"
+          placeholder="Enter your first name"
+          value="{{ user.firstName }}"
+          name="uFirstName"
+        />
+        <input
+          class="inputFeald"
+          type="text"
+          placeholder="Enter your last name"
+          value="{{ user.lastName }}"
+          name="uLastName"
+        />
+        <input class="inputFeald" type="email" placeholder="Enter your email" value="{{ user.email }}" name="uEmail"/>
+        <input class="inputFeald" type="text" placeholder="Enter your Password" value="{{ user.password }}" name="uPassword"/>
+        <input
+          class="inputFeald"
+          type="text"
+          placeholder="confirm your password"
+          value="{{ user.confirmPass }}"
+          name="uConfirmPass"
+        />
+        <input
+          class="inputFeald"
+          type="text"
+          placeholder="Enter your phone Number"
+          value="{{ user.mobilPhone }}"
+          name="uMobilPhone"
+        />
 
-      <button type="submit">submit new photo</button>
-      <button type="button">update</button>
+      </div>
+      <label style="text-align: center;">submit new photo</label><br>
+      <input type="file"  name="uImage" class="form-control" aria-label="Sizing example input" aria-describedby="inputGroup-sizing-default"/>
+      <button type="submit">Update The User</button>
     </div>
   </div>
-</div>
+</form>
+
 {%endblock%}
